@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "TV0NHbx9RgP0PkeCyScB1kL65kPxPHogytCkx/vQPGDXTquZMVJfE5DsjNCOtBd6Hq5DibMS49LEOeikL3inaQ==",
+  "dgSpecHash": "wXzpoAhcJt2T+dA5AA8dB9CyB3mbkLuenpTYBo6F3lfUYewo6rpxscc/QSg+GsmEjBJu1AuNte4DpwLJw3Lyjg==",
   "success": true,
-  "projectFilePath": "D:\\vscode backupo\\PcCatalog\\PcCatalog\\PcCatalog.csproj",
+  "projectFilePath": "D:\\PcCatalogProject\\PcCatalog-current\\PcCatalog\\PcCatalog.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\moofi\\.nuget\\packages\\bouncycastle.netcore\\1.8.5\\bouncycastle.netcore.1.8.5.nupkg.sha512",
     "C:\\Users\\moofi\\.nuget\\packages\\google.protobuf\\3.14.0\\google.protobuf.3.14.0.nupkg.sha512",
