@@ -20,6 +20,9 @@
     <Compile Update="Main.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="NewMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Shop.cs">
       <SubType>Form</SubType>
     </Compile>

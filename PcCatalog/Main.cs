@@ -7,6 +7,7 @@ namespace PcCatalog
     public partial class Main : Form
     {
         private BudgetAdd budgetAdd = new BudgetAdd();
+        NewMain main = new();
         public Main()
         {        
             InitializeComponent();        
@@ -80,6 +81,11 @@ namespace PcCatalog
         private void powerSuppliesToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            main.Show();
         }
     }
 }

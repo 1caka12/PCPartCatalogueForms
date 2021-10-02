@@ -10,7 +10,7 @@ namespace PcCatalog
 
         private static double boughtProductPrice = .0;
         private DataGridViewRow row;
-        private string firstName, lastName, phone;
+        private string fName, lName, phone;
         public Cart()
         {
             InitializeComponent();
@@ -296,7 +296,7 @@ namespace PcCatalog
             phone = command.ExecuteScalar().ToString();
             connection.Close();
 
-            if (firstName == firstName && lastName == lastName && phoneNum == phone)
+            if (fName == firstName && lName == lastName && phoneNum == phone)
             {  return true ; }
             else { return ClientChecker(firstName,lastName,phoneNum, customerIdCount - 1); }              
                   

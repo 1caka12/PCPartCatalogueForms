@@ -7,7 +7,6 @@ using MySql.Data.MySqlClient;
 
 namespace PcCatalog
 {
-
     public partial class Shop : Form
     {
         private static double productPrice = .0; // gets the price from the label
