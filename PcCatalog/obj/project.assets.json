@@ -845,11 +845,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\vscode backupo\\PcCatalog\\PcCatalog\\PcCatalog.csproj",
+      "projectUniqueName": "D:\\PcCatalogProject\\PcCatalog-current\\PcCatalog\\PcCatalog.csproj",
       "projectName": "PcCatalog",
-      "projectPath": "D:\\vscode backupo\\PcCatalog\\PcCatalog\\PcCatalog.csproj",
+      "projectPath": "D:\\PcCatalogProject\\PcCatalog-current\\PcCatalog\\PcCatalog.csproj",
       "packagesPath": "C:\\Users\\moofi\\.nuget\\packages\\",
-      "outputPath": "D:\\vscode backupo\\PcCatalog\\PcCatalog\\obj\\",
+      "outputPath": "D:\\PcCatalogProject\\PcCatalog-current\\PcCatalog\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
