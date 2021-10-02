@@ -1,0 +1,13 @@
+E:\C#App\PcCatalog.exe
+E:\C#App\PcCatalog.dll
+E:\C#App\PcCatalog.deps.json
+E:\C#App\PcCatalog.runtimeconfig.json
+E:\C#App\PcCatalog.pdb
+E:\C#App\BouncyCastle.Crypto.dll
+E:\C#App\Google.Protobuf.dll
+E:\C#App\K4os.Compression.LZ4.dll
+E:\C#App\K4os.Compression.LZ4.Streams.dll
+E:\C#App\K4os.Hash.xxHash.dll
+E:\C#App\MySql.Data.dll
+E:\C#App\Ubiety.Dns.Core.dll
+E:\C#App\Zstandard.Net.dll
