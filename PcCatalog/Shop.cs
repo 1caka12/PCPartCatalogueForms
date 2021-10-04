@@ -353,13 +353,7 @@ namespace PcCatalog
         }
         private void EditGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-          // int rows = RowCount();
-          // List<int> ids = new List<int>();
-          //
-          // for(int i = 0; i<rows;i++)
-          // {
-          //
-          // }
+        
             if (e.RowIndex > -1)
             {
                 checkBoxCellEditGrid = (DataGridViewCheckBoxCell)EditGrid.Rows[EditGrid.CurrentRow.Index].Cells[0];
@@ -433,11 +427,7 @@ namespace PcCatalog
                     MySqlCommand idFieldCommand = new(idField, connection);
                     reader = idFieldCommand.ExecuteReader();
                     connection.Close();
-                   // for (int i = 0; i<rows; i++)
-                   // {
-                   //    connection.Open();
-                   //    
-                   // }
+               
                 }
                 else if (checkBoxCellEditGrid.Value.Equals(false))
                 {

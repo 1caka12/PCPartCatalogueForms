@@ -162,6 +162,10 @@ namespace PcCatalog
             // 
             // productSalesDataGrid
             // 
+            this.productSalesDataGrid.AllowUserToAddRows = false;
+            this.productSalesDataGrid.AllowUserToDeleteRows = false;
+            this.productSalesDataGrid.AllowUserToResizeColumns = false;
+            this.productSalesDataGrid.AllowUserToResizeRows = false;
             this.productSalesDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.productSalesDataGrid.Location = new System.Drawing.Point(218, 106);
             this.productSalesDataGrid.Name = "productSalesDataGrid";
@@ -169,6 +173,7 @@ namespace PcCatalog
             this.productSalesDataGrid.Size = new System.Drawing.Size(320, 216);
             this.productSalesDataGrid.TabIndex = 2;
             this.productSalesDataGrid.Visible = false;
+            this.productSalesDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.productSalesDataGrid_CellContentClick);
             // 
             // exitButton
             // 
