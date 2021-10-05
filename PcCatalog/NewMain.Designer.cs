@@ -164,8 +164,7 @@ namespace PcCatalog
             // 
             this.productSalesDataGrid.AllowUserToAddRows = false;
             this.productSalesDataGrid.AllowUserToDeleteRows = false;
-            this.productSalesDataGrid.AllowUserToResizeColumns = false;
-            this.productSalesDataGrid.AllowUserToResizeRows = false;
+            this.productSalesDataGrid.AllowUserToOrderColumns = true;
             this.productSalesDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.productSalesDataGrid.Location = new System.Drawing.Point(218, 106);
             this.productSalesDataGrid.Name = "productSalesDataGrid";
@@ -216,6 +215,7 @@ namespace PcCatalog
             this.addToCartButton.TabIndex = 6;
             this.addToCartButton.Text = "Add to Cart";
             this.addToCartButton.UseVisualStyleBackColor = true;
+            this.addToCartButton.Click += new System.EventHandler(this.addToCartButton_Click);
             // 
             // label2
             // 

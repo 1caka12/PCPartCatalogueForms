@@ -11,8 +11,7 @@ namespace PcCatalog
     {
         private DataGridViewCheckBoxCell checkBoxCell;
         private DataGridViewCheckBoxColumn checkBoxColumn = new();
-        static double totalPrice = .0;
-
+        
         public NewMain()
         {
             InitializeComponent();
@@ -128,10 +127,9 @@ namespace PcCatalog
 
         private void productSalesDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
-            if (e.RowIndex > -1)
+            if(e.RowIndex > -1)
             {
-                checkBoxCell = (DataGridViewCheckBoxCell)productSalesDataGrid.Rows[productSalesDataGrid.CurrentRow.Index].Cells[0];             
+                checkBoxCell = (DataGridViewCheckBoxCell)productSalesDataGrid.Rows[productSalesDataGrid.CurrentRow.Index].Cells[0];
                 DataGridViewRow row = productSalesDataGrid.Rows[e.RowIndex];
 
                 if (checkBoxCell.Value == null)
@@ -148,24 +146,50 @@ namespace PcCatalog
                         checkBoxCell.Value = true;
                         break;
                 }
-                //MySqlConnection connection =  Utilities.Connection();
-                if(checkBoxCell.Value.Equals(true))
+                
+                string item;
+               // double price;
+                if (checkBoxCell.Value.Equals(true))
                 {
-                    string item = row.Cells[1].Value.ToString();
-                    double price = double.Parse(row.Cells[2].Value.ToString());
-                    costLabel.Text = DisplayPrice(price);
+                    item = row.Cells[1].Value.ToString();
+                    double price;
+                    price = double.Parse(row.Cells[2].Value.ToString());
+                    /* costLabel.Text = Utilities.DisplayPrice(price, "add");
+                     costLabel.Text = price.ToString();*/
+                }
+                else if (checkBoxCell.Value.Equals(false))
+                {
+                    item = row.Cells[1].Value.ToString();
+                    double price;
+                   // price = double.Parse(row.Cells[2].Value.ToString());
+                    //costLabel.Text = Utilities.DisplayPrice(price, "remove");
+                    
                 }
 
             }
         }
-        public static string DisplayPrice(double currentProductPrice)
-        {           
-            totalPrice += currentProductPrice;
-            return Math.Round(totalPrice, 2).ToString();
-            
+
+        private void addToCartButton_Click(object sender, EventArgs e)
+        {
+            //double price = .0;
+            double curPrice = .0;
+            foreach (DataGridViewRow row in productSalesDataGrid.Rows)
+            {
+                if (Convert.ToBoolean(row.Cells[0].Value))
+                {
+                    double price = double.Parse(row.Cells[2].Value.ToString());
+                    curPrice += price;                 
+                    //price += price;
+                    costLabel.Text = curPrice.ToString();
+
+                    //costLabel.Text = Utilities.DisplayPrice(price, "add");
+                    row.Cells[0].Value = false;
+                }
+                
+                //curPrice = 0;
+            }
+
         }
-
-
     }
         
 }

@@ -293,7 +293,7 @@ namespace PcCatalog
             this.EditGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.EditGrid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.EditGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.EditGrid.Location = new System.Drawing.Point(226, 54);
+            this.EditGrid.Location = new System.Drawing.Point(220, 139);
             this.EditGrid.Name = "EditGrid";
             this.EditGrid.RowTemplate.Height = 25;
             this.EditGrid.Size = new System.Drawing.Size(391, 228);

@@ -7,7 +7,7 @@ namespace PcCatalog
 {
     class Utilities
     {
-       public static string price;
+       public static double price;
         public static DataTable ProductsDataTable(string product)
         {
             string connectionString = "server=localhost;user=root;database=sys;port=3306;password=root";
@@ -39,12 +39,19 @@ namespace PcCatalog
             connection.Open();
             return connection;
         }
-        public static string DisplayPrice(double currentProductPrice)
+        public static string DisplayPrice(double currentProductPrice,string command)
         {
-            double totalPrice = .0;
-            totalPrice += currentProductPrice;
-            price = Math.Round(totalPrice, 2).ToString();
-            return price;
+            if (command == "add")
+            {
+                price += currentProductPrice;
+                return Math.Abs(Math.Round(price, 2)).ToString();
+            }
+            else
+            {
+                price -= currentProductPrice;
+               
+                return Math.Abs(Math.Round(price, 2)).ToString();
+            }
         }
         /*
         public enum Products
