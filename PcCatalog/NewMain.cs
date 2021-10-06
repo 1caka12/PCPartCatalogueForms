@@ -9,9 +9,8 @@ namespace PcCatalog
 {
     public partial class NewMain : Form
     {
-        private DataGridViewCheckBoxCell checkBoxCell;
-        private DataGridViewCheckBoxColumn checkBoxColumn = new();
-        
+        private static DataGridViewButtonColumn buttonColumn;
+        private static DataGridViewButtonCell buttonCell;
         public NewMain()
         {
             InitializeComponent();
@@ -19,15 +18,8 @@ namespace PcCatalog
 
         private void NewMain_Load(object sender, EventArgs e)
         {
-            checkBoxColumn = new();
-            checkBoxColumn.Name = "SelectProduct";
-            checkBoxColumn.HeaderText = "";
-            checkBoxColumn.Width = 50;
-            checkBoxColumn.ReadOnly = false;
-            checkBoxColumn.FillWeight = 10;
-            productSalesDataGrid.Columns.Insert(0, checkBoxColumn);
-            checkBoxColumn.Visible = false;            
-            //checkBoxColumn.ReadOnly = true;
+                  
+            
         }
         
 
@@ -105,10 +97,7 @@ namespace PcCatalog
             if (menu == "shop")
             {
                 shopCostPanel.Visible = true;
-                toCartButton.Visible = true;
-
-                if (checkBoxColumn.Visible == false)
-                    checkBoxColumn.Visible = true;
+                toCartButton.Visible = true;             
             }
         }
         private void ExitMenu(string menu)
@@ -118,53 +107,16 @@ namespace PcCatalog
             if (menu == "shop")
             {
                 shopCostPanel.Visible = false;
-                toCartButton.Visible = false;
-
-                if (checkBoxColumn.Visible == true)
-                    checkBoxColumn.Visible = false;
+                toCartButton.Visible = false;           
             }
         }
 
         private void productSalesDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.RowIndex > -1)
+           
+            //buttonCell = (DataGridViewButtonCell)productSalesDataGrid.Rows[productSalesDataGrid.CurrentRow.Index].Cells[0];
+            if(e.ColumnIndex == productSalesDataGrid.Columns["buttonColumn"].Index)
             {
-                checkBoxCell = (DataGridViewCheckBoxCell)productSalesDataGrid.Rows[productSalesDataGrid.CurrentRow.Index].Cells[0];
-                DataGridViewRow row = productSalesDataGrid.Rows[e.RowIndex];
-
-                if (checkBoxCell.Value == null)
-                {
-                    checkBoxCell.Value = false;
-                }
-
-                switch (checkBoxCell.Value.ToString())
-                {
-                    case "True":
-                        checkBoxCell.Value = false;
-                        break;
-                    case "False":
-                        checkBoxCell.Value = true;
-                        break;
-                }
-                
-                string item;
-               // double price;
-                if (checkBoxCell.Value.Equals(true))
-                {
-                    item = row.Cells[1].Value.ToString();
-                    double price;
-                    price = double.Parse(row.Cells[2].Value.ToString());
-                    /* costLabel.Text = Utilities.DisplayPrice(price, "add");
-                     costLabel.Text = price.ToString();*/
-                }
-                else if (checkBoxCell.Value.Equals(false))
-                {
-                    item = row.Cells[1].Value.ToString();
-                    double price;
-                   // price = double.Parse(row.Cells[2].Value.ToString());
-                    //costLabel.Text = Utilities.DisplayPrice(price, "remove");
-                    
-                }
 
             }
         }
@@ -189,6 +141,28 @@ namespace PcCatalog
                 //curPrice = 0;
             }
 
+        }
+
+        private void productStrip_Click(object sender, EventArgs e)
+        {
+            buttonColumn = new();
+            {
+                buttonColumn.Name = "buttonColumn";
+                buttonColumn.HeaderText = "";
+                buttonColumn.Text = "Add";
+                buttonColumn.UseColumnTextForButtonValue = true;
+                buttonColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                buttonColumn.FlatStyle = FlatStyle.Standard;
+
+            }                      
+            buttonCell = new();
+            
+            if (productSalesDataGrid.Columns["buttonColumn"] == null)
+            {
+                productSalesDataGrid.Columns.Insert(0, buttonColumn);
+                productSalesDataGrid.CellContentClick += productSalesDataGrid_CellContentClick;
+
+            }
         }
     }
         

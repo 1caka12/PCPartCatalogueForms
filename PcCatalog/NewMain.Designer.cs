@@ -81,6 +81,7 @@ namespace PcCatalog
             this.productStrip.Name = "productStrip";
             this.productStrip.Size = new System.Drawing.Size(58, 25);
             this.productStrip.Text = "Shop";
+            this.productStrip.Click += new System.EventHandler(this.productStrip_Click);
             // 
             // processorsMenuItem
             // 
