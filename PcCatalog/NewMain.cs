@@ -10,16 +10,15 @@ namespace PcCatalog
     public partial class NewMain : Form
     {
         private static DataGridViewButtonColumn buttonColumn;
-        private static DataGridViewButtonCell buttonCell;
+       // private static DataTable boughtProducts;
+        NewCart newCart = new();
         public NewMain()
         {
             InitializeComponent();
         }
 
         private void NewMain_Load(object sender, EventArgs e)
-        {
-                  
-            
+        { 
         }
         
 
@@ -113,17 +112,20 @@ namespace PcCatalog
 
         private void productSalesDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-           
-            //buttonCell = (DataGridViewButtonCell)productSalesDataGrid.Rows[productSalesDataGrid.CurrentRow.Index].Cells[0];
+            int rowIndex = e.RowIndex;
+            DataGridViewRow row = productSalesDataGrid.Rows[rowIndex];           
             if(e.ColumnIndex == productSalesDataGrid.Columns["buttonColumn"].Index)
             {
-
+                double price = double.Parse(row.Cells[2].Value.ToString());
+                string name = row.Cells[1].Value.ToString();
+                costLabel.Text = Utilities.DisplayPrice(price, "add");
+                
             }
         }
 
         private void addToCartButton_Click(object sender, EventArgs e)
         {
-            //double price = .0;
+            
             double curPrice = .0;
             foreach (DataGridViewRow row in productSalesDataGrid.Rows)
             {
@@ -153,16 +155,22 @@ namespace PcCatalog
                 buttonColumn.UseColumnTextForButtonValue = true;
                 buttonColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 buttonColumn.FlatStyle = FlatStyle.Standard;
-
-            }                      
-            buttonCell = new();
+            }                                 
             
             if (productSalesDataGrid.Columns["buttonColumn"] == null)
             {
-                productSalesDataGrid.Columns.Insert(0, buttonColumn);
-                productSalesDataGrid.CellContentClick += productSalesDataGrid_CellContentClick;
-
+                productSalesDataGrid.Columns.Insert(0, buttonColumn);                
             }
+        }
+
+        private void shopCostPanel_Paint(object sender, PaintEventArgs e)
+        {
+            
+        }
+
+        private void toCartButton_Click(object sender, EventArgs e)
+        {
+            newCart.Show();
         }
     }
         

@@ -46,7 +46,6 @@ namespace PcCatalog
             this.exitButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.shopCostPanel = new System.Windows.Forms.Panel();
-            this.addToCartButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.costLabel = new System.Windows.Forms.Label();
             this.toCartButton = new System.Windows.Forms.Button();
@@ -182,7 +181,7 @@ namespace PcCatalog
             this.exitButton.Name = "exitButton";
             this.exitButton.Size = new System.Drawing.Size(86, 27);
             this.exitButton.TabIndex = 3;
-            this.exitButton.Text = "Exit button";
+            this.exitButton.Text = "Exit Store";
             this.exitButton.UseVisualStyleBackColor = true;
             this.exitButton.Visible = false;
             this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
@@ -190,7 +189,7 @@ namespace PcCatalog
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 17);
+            this.label1.Location = new System.Drawing.Point(3, 17);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(34, 15);
             this.label1.TabIndex = 4;
@@ -198,30 +197,20 @@ namespace PcCatalog
             // 
             // shopCostPanel
             // 
-            this.shopCostPanel.Controls.Add(this.addToCartButton);
             this.shopCostPanel.Controls.Add(this.label2);
             this.shopCostPanel.Controls.Add(this.costLabel);
             this.shopCostPanel.Controls.Add(this.label1);
-            this.shopCostPanel.Location = new System.Drawing.Point(242, 328);
+            this.shopCostPanel.Location = new System.Drawing.Point(247, 328);
             this.shopCostPanel.Name = "shopCostPanel";
             this.shopCostPanel.Size = new System.Drawing.Size(278, 47);
             this.shopCostPanel.TabIndex = 5;
             this.shopCostPanel.Visible = false;
-            // 
-            // addToCartButton
-            // 
-            this.addToCartButton.Location = new System.Drawing.Point(190, 9);
-            this.addToCartButton.Name = "addToCartButton";
-            this.addToCartButton.Size = new System.Drawing.Size(88, 31);
-            this.addToCartButton.TabIndex = 6;
-            this.addToCartButton.Text = "Add to Cart";
-            this.addToCartButton.UseVisualStyleBackColor = true;
-            this.addToCartButton.Click += new System.EventHandler(this.addToCartButton_Click);
+            this.shopCostPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.shopCostPanel_Paint);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(107, 17);
+            this.label2.Location = new System.Drawing.Point(208, 17);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 15);
             this.label2.TabIndex = 6;
@@ -230,13 +219,14 @@ namespace PcCatalog
             // costLabel
             // 
             this.costLabel.AutoSize = true;
-            this.costLabel.Location = new System.Drawing.Point(56, 17);
+            this.costLabel.Location = new System.Drawing.Point(43, 17);
             this.costLabel.Name = "costLabel";
             this.costLabel.Size = new System.Drawing.Size(0, 15);
             this.costLabel.TabIndex = 5;
             // 
             // toCartButton
             // 
+            this.toCartButton.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.toCartButton.Location = new System.Drawing.Point(698, 402);
             this.toCartButton.Name = "toCartButton";
             this.toCartButton.Size = new System.Drawing.Size(81, 32);
@@ -244,6 +234,7 @@ namespace PcCatalog
             this.toCartButton.Text = "Go to cart";
             this.toCartButton.UseVisualStyleBackColor = true;
             this.toCartButton.Visible = false;
+            this.toCartButton.Click += new System.EventHandler(this.toCartButton_Click);
             // 
             // NewMain
             // 
@@ -288,7 +279,6 @@ namespace PcCatalog
         private System.Windows.Forms.Button exitButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel shopCostPanel;
-        private System.Windows.Forms.Button addToCartButton;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label costLabel;
         private System.Windows.Forms.Button toCartButton;

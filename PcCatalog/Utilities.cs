@@ -7,7 +7,8 @@ namespace PcCatalog
 {
     class Utilities
     {
-       public static double price;
+        public static double price;
+        
         public static DataTable ProductsDataTable(string product)
         {
             string connectionString = "server=localhost;user=root;database=sys;port=3306;password=root";
@@ -48,21 +49,20 @@ namespace PcCatalog
             }
             else
             {
-                price -= currentProductPrice;
-               
+                price -= currentProductPrice;              
                 return Math.Abs(Math.Round(price, 2)).ToString();
             }
         }
-        /*
-        public enum Products
+
+        public static int GetIdOfProduct(string product,double price)
         {
-            cpu,
-            gpu,
-            hdd,
-            mobo,
-            psu,
-            ram,
-            ssd
-        }*/
+            MySqlConnection connection = Connection();
+            string productIdQuery = $"SELECT product_id FROM sys.{product} WHERE item={product} AND {product}_price={price}";
+            MySqlCommand command = new(productIdQuery, connection);
+            int id = int.Parse(command.ExecuteScalar().ToString());
+            return id;
+        }
+        
+        
     }
 }

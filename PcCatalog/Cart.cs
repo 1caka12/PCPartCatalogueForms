@@ -6,97 +6,41 @@ namespace PcCatalog
 {
     public partial class Cart : Form
     {
-        Shop shop = new();
+       
 
         private static double boughtProductPrice = .0;
-        private DataGridViewRow row;
+        NewMain newMain = new();
         private string fName, lName, phone;
         public Cart()
         {
             InitializeComponent();
 
             Bought_Products.DataSource = Shop.BoughtProducts;
-
+            /*
             Connection();
-            CartPriceLabel.Text = Cost().ToString();
+            CartPriceLabel.Text = Cost().ToString();*/
 
             LeaveShopPanel.Visible = false;
         }
 
         private void Back1_Button_Click(object sender, EventArgs e)
         {
-            shop.Show();
-
+            newMain.Show();
             this.Hide();
         }
 
         private void Bought_Products_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex > -1)
-            {
-                DataGridViewRow row = Bought_Products.Rows[e.RowIndex];
-                int rowIndex = Bought_Products.CurrentCell.RowIndex;
-
-                Shop.Price -= boughtProductPrice;
-                CartPriceLabel.Text = Math.Round(Shop.Price, 2).ToString();
-                Bought_Products.Rows.RemoveAt(rowIndex);
-            }
+            
 
         }
 
-        private void DataGridSource(object sender, EventArgs e)
-        {
-            Bought_Products.DataSource = EditPurchase._EditGrid;
-        }
+        
 
-        private static double Cost()
-        {
-            string connectionString = "server=localhost;user=root;database=sys;port=3306;password=root";
-            MySqlConnection connection = new MySqlConnection(connectionString);
-            connection.Open();
-            string query = "SELECT SUM(price) FROM sys.purchase";
-            MySqlCommand command = new(query, connection);
-            double sum = double.Parse(command.ExecuteScalar().ToString());
-            connection.Close();
-            return Math.Abs(Math.Round(sum, 2));
-        }
-        private void Connection()
-        {
-            string connectionString = "server=localhost;user=root;database=sys;port=3306;password=root";
-            MySqlConnection connection = new MySqlConnection(connectionString);
-            connection.Open();
+       
+        
 
-            string productQuery = $"SELECT item, price FROM sys.purchase";
-
-            using (MySqlCommand command = new MySqlCommand(productQuery, connection))
-            {
-                command.CommandType = CommandType.Text;
-                using (MySqlDataAdapter adapter = new MySqlDataAdapter(command))
-                {
-                    using (DataTable dataTable = new DataTable())
-                    {
-                        adapter.Fill(dataTable);
-                        Bought_Products.DataSource = dataTable;// fill first datagrid
-                    }
-                }
-            }
-
-            connection.Close();
-        }
-
-        private void Cart_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            string connectionString = "server=localhost;user=root;database=sys;port=3306;password=root";
-            MySqlConnection mySqlConnection = new(connectionString);
-            mySqlConnection.Open();
-
-            string query = $"TRUNCATE TABLE purchase";
-            MySqlCommand command = new MySqlCommand(query, mySqlConnection);
-            MySqlDataReader reader = command.ExecuteReader();
-            mySqlConnection.Close();
-            Application.Exit();
-        }
-
+  
         private void PurchaseButton_Click(object sender, EventArgs e)
         {
             string firstName = FirstNameBox.Text;
@@ -112,9 +56,7 @@ namespace PcCatalog
             MySqlCommand command = new(customerIdString, connection);
             int customerIdCount = int.Parse(command.ExecuteScalar().ToString());
             connection.Close();
-
-           
-
+        
             if (ClientChecker(firstName,lastName,phoneNum, customerIdCount) == false)
             {
                 connection.Open();

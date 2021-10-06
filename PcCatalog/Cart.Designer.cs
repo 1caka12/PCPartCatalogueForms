@@ -77,10 +77,10 @@ namespace PcCatalog
             // Bought_Products
             // 
             this.Bought_Products.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Bought_Products.Location = new System.Drawing.Point(12, 58);
+            this.Bought_Products.Location = new System.Drawing.Point(29, 64);
             this.Bought_Products.Name = "Bought_Products";
             this.Bought_Products.RowTemplate.Height = 25;
-            this.Bought_Products.Size = new System.Drawing.Size(385, 211);
+            this.Bought_Products.Size = new System.Drawing.Size(368, 205);
             this.Bought_Products.TabIndex = 2;
             this.Bought_Products.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Bought_Products_CellClick);
             // 
@@ -179,7 +179,7 @@ namespace PcCatalog
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label7.Location = new System.Drawing.Point(82, 24);
+            this.label7.Location = new System.Drawing.Point(82, 30);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(191, 25);
             this.label7.TabIndex = 14;
@@ -195,9 +195,9 @@ namespace PcCatalog
             this.PersonalInfoPanel.Controls.Add(this.label5);
             this.PersonalInfoPanel.Controls.Add(this.label6);
             this.PersonalInfoPanel.Controls.Add(this.LastNameBox);
-            this.PersonalInfoPanel.Location = new System.Drawing.Point(417, 41);
+            this.PersonalInfoPanel.Location = new System.Drawing.Point(434, 47);
             this.PersonalInfoPanel.Name = "PersonalInfoPanel";
-            this.PersonalInfoPanel.Size = new System.Drawing.Size(371, 277);
+            this.PersonalInfoPanel.Size = new System.Drawing.Size(354, 271);
             this.PersonalInfoPanel.TabIndex = 15;
             // 
             // LeaveShopPanel
@@ -206,9 +206,9 @@ namespace PcCatalog
             this.LeaveShopPanel.Controls.Add(this.LeaveButton);
             this.LeaveShopPanel.Controls.Add(this.label8);
             this.LeaveShopPanel.Controls.Add(this.label7);
-            this.LeaveShopPanel.Location = new System.Drawing.Point(403, 41);
+            this.LeaveShopPanel.Location = new System.Drawing.Point(370, 371);
             this.LeaveShopPanel.Name = "LeaveShopPanel";
-            this.LeaveShopPanel.Size = new System.Drawing.Size(394, 274);
+            this.LeaveShopPanel.Size = new System.Drawing.Size(226, 96);
             this.LeaveShopPanel.TabIndex = 16;
             // 
             // ShopButton
@@ -256,7 +256,6 @@ namespace PcCatalog
             this.Controls.Add(this.label1);
             this.Name = "Cart";
             this.Text = "Cart";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Cart_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.Bought_Products)).EndInit();
             this.PersonalInfoPanel.ResumeLayout(false);
             this.PersonalInfoPanel.PerformLayout();

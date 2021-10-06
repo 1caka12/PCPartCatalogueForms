@@ -94,3 +94,4 @@ D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\ref\PcC
 D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\PcCatalog.pdb
 D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\PcCatalog.genruntimeconfig.cache
 D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\PcCatalog.NewMain.resources
+D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\PcCatalog.NewCart.resources
