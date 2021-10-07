@@ -10,7 +10,9 @@ namespace PcCatalog
     public partial class NewMain : Form
     {
         private static DataGridViewButtonColumn buttonColumn;
-       // private static DataTable boughtProducts;
+        private static List<double> selectedProductsPrice;
+        private static List<string> selectedProductsName;
+        
         NewCart newCart = new();
         public NewMain()
         {
@@ -31,6 +33,8 @@ namespace PcCatalog
                OpenMenu("shop");
                  
             productSalesDataGrid.DataSource = Utilities.ProductsDataTable("cpu");
+            Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
+            
         }
 
         private void graphicsCardsMenuItem_Click(object sender, EventArgs e)
@@ -39,6 +43,8 @@ namespace PcCatalog
                 OpenMenu("shop");
 
             productSalesDataGrid.DataSource = Utilities.ProductsDataTable("gpu");
+            Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
+
         }
 
         private void hardDrivesMenuItem_Click(object sender, EventArgs e)
@@ -47,6 +53,7 @@ namespace PcCatalog
                 OpenMenu("shop");
 
             productSalesDataGrid.DataSource = Utilities.ProductsDataTable("hdd");
+            Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
         }
 
         private void motherboardsMenuItem_Click(object sender, EventArgs e)
@@ -55,6 +62,7 @@ namespace PcCatalog
                 OpenMenu("shop");
 
            productSalesDataGrid.DataSource = Utilities.ProductsDataTable("mobo");
+            Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
         }
 
         private void powerSuppliesMenuItem_Click(object sender, EventArgs e)
@@ -63,6 +71,7 @@ namespace PcCatalog
                 OpenMenu("shop");
 
            productSalesDataGrid.DataSource = Utilities.ProductsDataTable("psu");
+            Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
         }
 
         private void ramMenuItem_Click(object sender, EventArgs e)
@@ -71,6 +80,7 @@ namespace PcCatalog
                 OpenMenu("shop");
 
             productSalesDataGrid.DataSource = Utilities.ProductsDataTable("ram");
+            Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
         }
 
         private void ssdMenuItem_Click(object sender, EventArgs e)
@@ -79,6 +89,7 @@ namespace PcCatalog
                 OpenMenu("shop");
 
            productSalesDataGrid.DataSource = Utilities.ProductsDataTable("ssd");
+            Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
         }
         //
         //
@@ -113,64 +124,55 @@ namespace PcCatalog
         private void productSalesDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             int rowIndex = e.RowIndex;
-            DataGridViewRow row = productSalesDataGrid.Rows[rowIndex];           
-            if(e.ColumnIndex == productSalesDataGrid.Columns["buttonColumn"].Index)
+            DataGridViewRow row = productSalesDataGrid.Rows[rowIndex];
+            
+            if (e.ColumnIndex == productSalesDataGrid.Columns["buttonColumn"].Index)
             {
                 double price = double.Parse(row.Cells[2].Value.ToString());
                 string name = row.Cells[1].Value.ToString();
                 costLabel.Text = Utilities.DisplayPrice(price, "add");
-                
+                selectedProductsPrice.Add(price);
+                selectedProductsName.Add(name);                
+                productSalesDataGrid.Rows.Remove(row);              
             }
-        }
-
-        private void addToCartButton_Click(object sender, EventArgs e)
-        {
             
-            double curPrice = .0;
-            foreach (DataGridViewRow row in productSalesDataGrid.Rows)
-            {
-                if (Convert.ToBoolean(row.Cells[0].Value))
-                {
-                    double price = double.Parse(row.Cells[2].Value.ToString());
-                    curPrice += price;                 
-                    //price += price;
-                    costLabel.Text = curPrice.ToString();
-
-                    //costLabel.Text = Utilities.DisplayPrice(price, "add");
-                    row.Cells[0].Value = false;
-                }
-                
-                //curPrice = 0;
-            }
-
         }
-
+    
         private void productStrip_Click(object sender, EventArgs e)
-        {
-            buttonColumn = new();
-            {
-                buttonColumn.Name = "buttonColumn";
-                buttonColumn.HeaderText = "";
-                buttonColumn.Text = "Add";
-                buttonColumn.UseColumnTextForButtonValue = true;
-                buttonColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                buttonColumn.FlatStyle = FlatStyle.Standard;
-            }                                 
-            
+        {                                            
             if (productSalesDataGrid.Columns["buttonColumn"] == null)
             {
-                productSalesDataGrid.Columns.Insert(0, buttonColumn);                
-            }
-        }
-
-        private void shopCostPanel_Paint(object sender, PaintEventArgs e)
-        {
+                buttonColumn = new();
+                {
+                    buttonColumn.Name = "buttonColumn";
+                    buttonColumn.HeaderText = "";
+                    buttonColumn.Text = "Add";
+                    buttonColumn.UseColumnTextForButtonValue = true;
+                    buttonColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                    buttonColumn.FlatStyle = FlatStyle.Standard;
+                }
+                productSalesDataGrid.Columns.Insert(0, buttonColumn);
+                selectedProductsName = new();
+                selectedProductsPrice = new();
+                
+            }          
             
         }
-
+      
         private void toCartButton_Click(object sender, EventArgs e)
         {
             newCart.Show();
+        }
+        public static List<string> SelectedProductsNameList
+        {
+            get { return selectedProductsName; }
+            set { selectedProductsName = value; }
+        }
+
+        public static List<double> SelectedProductsPriceList
+        {
+            get { return selectedProductsPrice; }
+            set { selectedProductsPrice = value; }
         }
     }
         

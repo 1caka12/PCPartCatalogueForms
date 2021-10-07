@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Data;
 using System.Windows.Forms;
+
 using MySql.Data.MySqlClient;
+using System.Collections.Generic;
 
 namespace PcCatalog
 {
@@ -22,13 +24,11 @@ namespace PcCatalog
                 command.CommandType = CommandType.Text;
                 using (MySqlDataAdapter adapter = new MySqlDataAdapter(command))
                 {
-                    using (DataTable dataTable = new DataTable())
+                    using (DataTable ProductsDataTable = new DataTable())
                     {
-                        adapter.Fill(dataTable);
+                        adapter.Fill(ProductsDataTable);
                         connection.Close();
-                        return dataTable;
-                        //ListItems.DataSource = dataTable;// fill first datagrid
-                        
+                        return ProductsDataTable;                                
                     }
                 }
             }           
@@ -62,7 +62,28 @@ namespace PcCatalog
             int id = int.Parse(command.ExecuteScalar().ToString());
             return id;
         }
-        
+
+        public static void RemoveSelectedProducts(List<string> product, DataGridView grid)
+        {
+            for(int i = 0; i < grid.Rows.Count;i++)
+            {
+                for(int k = 0; k < product.Count;k++)
+                {
+                    if(product[k] == grid.Rows[i].Cells[1].Value.ToString())
+                    {
+                        grid.Rows.Remove(grid.Rows[i]);
+                    }
+                }
+            }   
+        }
+
+        public static void CheckForAddedItems(List<string> product,DataGridView grid)
+        {
+            if (product.Count > 0)
+            {
+                RemoveSelectedProducts(product, grid);
+            }
+        }
         
     }
 }

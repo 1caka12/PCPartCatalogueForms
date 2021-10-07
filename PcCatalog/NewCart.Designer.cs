@@ -57,15 +57,15 @@ namespace PcCatalog
             // 
             this.boughtProductsDataGrid.AllowUserToAddRows = false;
             this.boughtProductsDataGrid.AllowUserToDeleteRows = false;
-            this.boughtProductsDataGrid.AllowUserToOrderColumns = true;
             this.boughtProductsDataGrid.AllowUserToResizeColumns = false;
             this.boughtProductsDataGrid.AllowUserToResizeRows = false;
             this.boughtProductsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.boughtProductsDataGrid.Location = new System.Drawing.Point(24, 60);
+            this.boughtProductsDataGrid.Location = new System.Drawing.Point(12, 60);
             this.boughtProductsDataGrid.Name = "boughtProductsDataGrid";
             this.boughtProductsDataGrid.RowTemplate.Height = 25;
-            this.boughtProductsDataGrid.Size = new System.Drawing.Size(368, 236);
+            this.boughtProductsDataGrid.Size = new System.Drawing.Size(416, 236);
             this.boughtProductsDataGrid.TabIndex = 0;
+            this.boughtProductsDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.boughtProductsDataGrid_CellContentClick);
             // 
             // label1
             // 

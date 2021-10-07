@@ -164,7 +164,6 @@ namespace PcCatalog
             // 
             this.productSalesDataGrid.AllowUserToAddRows = false;
             this.productSalesDataGrid.AllowUserToDeleteRows = false;
-            this.productSalesDataGrid.AllowUserToOrderColumns = true;
             this.productSalesDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.productSalesDataGrid.Location = new System.Drawing.Point(218, 106);
             this.productSalesDataGrid.Name = "productSalesDataGrid";
@@ -205,7 +204,7 @@ namespace PcCatalog
             this.shopCostPanel.Size = new System.Drawing.Size(278, 47);
             this.shopCostPanel.TabIndex = 5;
             this.shopCostPanel.Visible = false;
-            this.shopCostPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.shopCostPanel_Paint);
+           
             // 
             // label2
             // 
