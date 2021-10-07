@@ -8,7 +8,7 @@ namespace PcCatalog
         private static DataGridViewColumn dataGridViewColumn;
         private static DataGridViewButtonColumn buttonColumn;
         private static NewCart newCart = new();
-        private static int quantity = 0;
+        private static int displayQuantity = 0;
         private static double currentTotal = 0;
         public NewCart()
         {
@@ -91,32 +91,43 @@ namespace PcCatalog
         private void boughtProductsDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             int rowIndex = e.RowIndex;
-            DataGridViewRow row = boughtProductsDataGrid.Rows[rowIndex];
+            DataGridViewRow row = boughtProductsDataGrid.Rows[rowIndex];                   
+            int productQuantity = 0;
             double totalSum = .0;
             double productPrice = .0;
             if(e.ColumnIndex == boughtProductsDataGrid.Columns["buyMore"].Index)
             {
-                quantity = int.Parse(row.Cells[2].Value.ToString());
-                quantity++;
-                row.Cells[2].Value = quantity;
+                //For display purpose- to display the quantity of bought products
+                displayQuantity = int.Parse(row.Cells[2].Value.ToString());
+                displayQuantity++;
+                row.Cells[2].Value = displayQuantity;
+                //for calculation purpose - to calculate the actual sum
+                productQuantity++;
                 productPrice = double.Parse(row.Cells[1].Value.ToString());
-                totalSum = productPrice * quantity;
-                //CartPriceLabel.Text = Utilities.DisplayPrice(totalSum,"add");
-                CartPriceLabel.Text = (totalSum+currentTotal-productPrice).ToString();
+                totalSum = productPrice * productQuantity;               
+                CartPriceLabel.Text = (totalSum+currentTotal).ToString();
+                currentTotal += totalSum;
             }
             else if(e.ColumnIndex == boughtProductsDataGrid.Columns["buyLess"].Index)
             {
-                if (quantity < 0)
+                            
+                if (productQuantity <= 0)
                 {
-                    return;                
+                    displayQuantity = int.Parse(row.Cells[2].Value.ToString());
+                    displayQuantity--;
+                    row.Cells[2].Value = displayQuantity;
+             
+                    productQuantity--;
+                    productPrice = double.Parse(row.Cells[1].Value.ToString());
+                    totalSum = productPrice * productQuantity;
+                    CartPriceLabel.Text = (currentTotal+totalSum).ToString();
+                    currentTotal += totalSum;
                 }
-                else
+                if(displayQuantity == 0)
                 {
-                    quantity = int.Parse(row.Cells[2].Value.ToString());
-                    quantity--;
-                    row.Cells[2].Value = quantity;
-                    CartPriceLabel.Text = Utilities.DisplayPrice(double.Parse(row.Cells[2].Value.ToString()), "subtract");
+                    boughtProductsDataGrid.Rows.Remove(row);
                 }
+                
                 
             }           
         }
