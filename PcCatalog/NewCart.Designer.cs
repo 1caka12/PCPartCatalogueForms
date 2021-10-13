@@ -33,11 +33,11 @@ namespace PcCatalog
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.purchaseButton = new System.Windows.Forms.Button();
-            this.firstNameBox = new System.Windows.Forms.TextBox();
-            this.phoneNumberBox = new System.Windows.Forms.TextBox();
+            this.FirstNameBox = new System.Windows.Forms.TextBox();
+            this.PhoneNumberBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.lastNameBox = new System.Windows.Forms.TextBox();
+            this.LastNameBox = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.CartPriceLabel = new System.Windows.Forms.Label();
@@ -97,19 +97,19 @@ namespace PcCatalog
             this.purchaseButton.UseVisualStyleBackColor = true;
             this.purchaseButton.Click += new System.EventHandler(this.purchaseButton_Click);
             // 
-            // firstNameBox
+            // FirstNameBox
             // 
-            this.firstNameBox.Location = new System.Drawing.Point(165, 58);
-            this.firstNameBox.Name = "firstNameBox";
-            this.firstNameBox.Size = new System.Drawing.Size(131, 23);
-            this.firstNameBox.TabIndex = 10;
+            this.FirstNameBox.Location = new System.Drawing.Point(165, 58);
+            this.FirstNameBox.Name = "FirstNameBox";
+            this.FirstNameBox.Size = new System.Drawing.Size(131, 23);
+            this.FirstNameBox.TabIndex = 10;
             // 
-            // phoneNumberBox
+            // PhoneNumberBox
             // 
-            this.phoneNumberBox.Location = new System.Drawing.Point(165, 147);
-            this.phoneNumberBox.Name = "phoneNumberBox";
-            this.phoneNumberBox.Size = new System.Drawing.Size(131, 23);
-            this.phoneNumberBox.TabIndex = 12;
+            this.PhoneNumberBox.Location = new System.Drawing.Point(165, 147);
+            this.PhoneNumberBox.Name = "PhoneNumberBox";
+            this.PhoneNumberBox.Size = new System.Drawing.Size(131, 23);
+            this.PhoneNumberBox.TabIndex = 12;
             // 
             // label3
             // 
@@ -131,23 +131,23 @@ namespace PcCatalog
             this.label4.TabIndex = 9;
             this.label4.Text = "Phone Number:";
             // 
-            // lastNameBox
+            // LastNameBox
             // 
-            this.lastNameBox.Location = new System.Drawing.Point(165, 102);
-            this.lastNameBox.Name = "lastNameBox";
-            this.lastNameBox.Size = new System.Drawing.Size(131, 23);
-            this.lastNameBox.TabIndex = 11;
+            this.LastNameBox.Location = new System.Drawing.Point(165, 102);
+            this.LastNameBox.Name = "LastNameBox";
+            this.LastNameBox.Size = new System.Drawing.Size(131, 23);
+            this.LastNameBox.TabIndex = 11;
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.purchaseButton);
-            this.panel1.Controls.Add(this.firstNameBox);
-            this.panel1.Controls.Add(this.phoneNumberBox);
+            this.panel1.Controls.Add(this.FirstNameBox);
+            this.panel1.Controls.Add(this.PhoneNumberBox);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.lastNameBox);
+            this.panel1.Controls.Add(this.LastNameBox);
             this.panel1.Location = new System.Drawing.Point(434, 60);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(354, 271);
@@ -274,11 +274,11 @@ namespace PcCatalog
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button purchaseButton;
-        private System.Windows.Forms.TextBox firstNameBox;
-        private System.Windows.Forms.TextBox phoneNumberBox;
+        private System.Windows.Forms.TextBox FirstNameBox;
+        private System.Windows.Forms.TextBox PhoneNumberBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox lastNameBox;
+        private System.Windows.Forms.TextBox LastNameBox;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label CartPriceLabel;

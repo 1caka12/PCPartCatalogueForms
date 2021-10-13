@@ -34,13 +34,7 @@ namespace PcCatalog
             
 
         }
-
-        
-
-       
-        
-
-  
+      
         private void PurchaseButton_Click(object sender, EventArgs e)
         {
             string firstName = FirstNameBox.Text;
@@ -240,7 +234,8 @@ namespace PcCatalog
 
             if (fName == firstName && lName == lastName && phoneNum == phone)
             {  return true ; }
-            else { return ClientChecker(firstName,lastName,phoneNum, customerIdCount - 1); }              
+            else
+            { return ClientChecker(firstName,lastName,phoneNum, customerIdCount - 1); }              
                   
         }
     }

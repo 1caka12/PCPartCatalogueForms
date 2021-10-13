@@ -33,7 +33,7 @@ namespace PcCatalog
                 }
             }           
         }
-        public static MySqlConnection Connection()
+        public static MySqlConnection ConnectionOpen()
         {
             string connectionString = "server=localhost;user=root;database=sys;port=3306;password=root";
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -56,10 +56,11 @@ namespace PcCatalog
 
         public static int GetIdOfProduct(string product,double price)
         {
-            MySqlConnection connection = Connection();
+            MySqlConnection connection = ConnectionOpen();
             string productIdQuery = $"SELECT product_id FROM sys.{product} WHERE item={product} AND {product}_price={price}";
             MySqlCommand command = new(productIdQuery, connection);
             int id = int.Parse(command.ExecuteScalar().ToString());
+            connection.Close();
             return id;
         }
 
@@ -85,5 +86,78 @@ namespace PcCatalog
             }
         }
         
+        public static bool ClientChecker(string firstName, string lastName, string phoneNum, int customerIdCount)
+        {
+            string currentFirstName, currentLastName, currentPhoneNum;
+            if (customerIdCount == 0)
+            { return false; }
+
+            MySqlConnection connection = ConnectionOpen();
+            MySqlCommand command = new();
+
+            string firstNameString = $"SELECT first_name FROM sys.customers WHERE customer_id = {customerIdCount}";
+            command = new(firstNameString, connection);
+            currentFirstName = command.ExecuteScalar().ToString();
+            connection.Close();
+
+            connection.Open();
+            string lastNameString = $"SELECT last_name FROM sys.customers WHERE customer_id = {customerIdCount}";
+            command = new(lastNameString, connection);
+            currentLastName = command.ExecuteScalar().ToString();
+            connection.Close();
+
+            connection.Open();
+            string phoneString = $"SELECT phone FROM sys.customers WHERE customer_id = {customerIdCount}";
+            command = new(phoneString, connection);
+            currentPhoneNum = command.ExecuteScalar().ToString();
+            connection.Close();
+
+            if (currentFirstName == firstName && currentLastName == lastName && currentPhoneNum == phoneNum)
+            { return true; }
+            else
+            { return ClientChecker(firstName, lastName, phoneNum, customerIdCount - 1); }
+        }
+
+        public static void AddNewClient(string firstName,string lastName,string phoneNum)
+        {
+            MySqlConnection connection = new();
+            MySqlCommand command = new();
+            connection.Open();
+            string customerInfo = "INSERT INTO sys.customers(first_name,last_name,phone) VALUES (@first,@last,@phone)";
+
+            MySqlParameter firstNameParam = new();
+            firstNameParam.ParameterName = "@first";
+            firstNameParam.Value = firstName;
+
+            MySqlParameter lastNameParam = new();
+            lastNameParam.ParameterName = "@last";
+            lastNameParam.Value = lastName;
+
+            MySqlParameter phoneParameter = new();
+            phoneParameter.ParameterName = "@phone";
+            phoneParameter.Value = phoneNum;
+
+            command = new(customerInfo, connection);
+            command.Parameters.Add(firstNameParam);
+            command.Parameters.Add(lastNameParam);
+            command.Parameters.Add(phoneParameter);
+
+            MySqlDataReader reader = command.ExecuteReader();
+            connection.Close();
+        }
+
+        public static void AddToReport()
+        {
+
+        }
+
+        public static int GetCustomerCount()
+        {
+            MySqlConnection connection = ConnectionOpen();
+            string customerIdQuery = $"SELECT COUNT(*) FROM sys.customers";
+            MySqlCommand command = new(customerIdQuery, connection);
+            int customerIdCount = int.Parse(command.ExecuteScalar().ToString());
+            return customerIdCount;
+        }
     }
 }
