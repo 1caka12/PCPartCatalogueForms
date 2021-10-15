@@ -12,6 +12,9 @@ namespace PcCatalog
         private static DataGridViewButtonColumn buttonColumn;
         private static List<double> selectedProductsPrice;
         private static List<string> selectedProductsName;
+        private static List<int> selectedProductsId;
+        private static string currentProduct;
+       
         
         NewCart newCart = new();
         public NewMain()
@@ -21,6 +24,7 @@ namespace PcCatalog
 
         private void NewMain_Load(object sender, EventArgs e)
         { 
+           
         }
         
 
@@ -29,16 +33,17 @@ namespace PcCatalog
        //
         private void processorMenuItem_Click(object sender, EventArgs e)
         {
+            currentProduct = "cpu";
             if(shopCostPanel.Visible==false)
                OpenMenu("shop");
                  
             productSalesDataGrid.DataSource = Utilities.ProductsDataTable("cpu");
-            Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
-            
+            Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);        
         }
 
         private void graphicsCardsMenuItem_Click(object sender, EventArgs e)
         {
+            currentProduct = "gpu";
             if (shopCostPanel.Visible == false)
                 OpenMenu("shop");
 
@@ -49,6 +54,7 @@ namespace PcCatalog
 
         private void hardDrivesMenuItem_Click(object sender, EventArgs e)
         {
+            currentProduct = "hdd";
             if (shopCostPanel.Visible == false)
                 OpenMenu("shop");
 
@@ -58,6 +64,7 @@ namespace PcCatalog
 
         private void motherboardsMenuItem_Click(object sender, EventArgs e)
         {
+            currentProduct = "mobo";
             if (shopCostPanel.Visible == false)
                 OpenMenu("shop");
 
@@ -67,6 +74,7 @@ namespace PcCatalog
 
         private void powerSuppliesMenuItem_Click(object sender, EventArgs e)
         {
+            currentProduct = "psu";
             if (shopCostPanel.Visible == false)
                 OpenMenu("shop");
 
@@ -76,6 +84,7 @@ namespace PcCatalog
 
         private void ramMenuItem_Click(object sender, EventArgs e)
         {
+            currentProduct = "ram";
             if (shopCostPanel.Visible == false)
                 OpenMenu("shop");
 
@@ -85,6 +94,7 @@ namespace PcCatalog
 
         private void ssdMenuItem_Click(object sender, EventArgs e)
         {
+            currentProduct = "ssd";
             if (shopCostPanel.Visible == false)
                 OpenMenu("shop");
 
@@ -132,8 +142,10 @@ namespace PcCatalog
                 string name = row.Cells[1].Value.ToString();
                 costLabel.Text = Utilities.DisplayPrice(price, "add");
                 selectedProductsPrice.Add(price);
-                selectedProductsName.Add(name);                
-                productSalesDataGrid.Rows.Remove(row);              
+                selectedProductsName.Add(name);
+                selectedProductsId.Add(Utilities.GetProductId(currentProduct,name,price));
+
+                productSalesDataGrid.Rows.Remove(row);           
             }
             
         }
@@ -154,7 +166,7 @@ namespace PcCatalog
                 productSalesDataGrid.Columns.Insert(0, buttonColumn);
                 selectedProductsName = new();
                 selectedProductsPrice = new();
-                
+                selectedProductsId = new();            
             }          
             
         }
@@ -173,6 +185,12 @@ namespace PcCatalog
         {
             get { return selectedProductsPrice; }
             set { selectedProductsPrice = value; }
+        }
+
+        public static List<int> SelectedProductsIDList
+        {
+            get { return selectedProductsId; }
+            set { selectedProductsId = value; }
         }
     }
         

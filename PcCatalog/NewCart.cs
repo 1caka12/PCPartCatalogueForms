@@ -1,4 +1,5 @@
 ﻿using System;
+
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
@@ -11,25 +12,10 @@ namespace PcCatalog
         private static NewCart newCart = new();
         private static int displayQuantity = 0;
         private static double currentTotal = 0;
+        private static int productQuantity = 0;
         public NewCart()
         {
             InitializeComponent();
-        }
-
-        private void purchaseButton_Click(object sender, EventArgs e)
-        {
-            string firstName = FirstNameBox.Text;
-            string lastName = LastNameBox.Text;
-            string phoneNum = PhoneNumberBox.Text;
-
-            int customerIdCount = Utilities.GetCustomerCount();
-
-            if (Utilities.ClientChecker(firstName,lastName,phoneNum,customerIdCount) == false)
-            {
-                Utilities.AddNewClient(firstName,lastName,phoneNum);
-            }
-            
-            
         }
 
         private void NewCart_Load(object sender, EventArgs e)
@@ -85,26 +71,70 @@ namespace PcCatalog
                 }
                 boughtProductsDataGrid.Columns.Insert(4, buttonColumn);
 
+                dataGridViewColumn = new DataGridViewTextBoxColumn();
+                {
+                    dataGridViewColumn.Name = "ID";
+                    dataGridViewColumn.HeaderText = "ID";
+                    dataGridViewColumn.DataPropertyName = "ID";
+                    dataGridViewColumn.ReadOnly = true;
+                    dataGridViewColumn.Visible = false;
+                }
+                boughtProductsDataGrid.Columns.Insert(5, dataGridViewColumn);
+
                 double sumOfProducts = .0;
+                
                 for (int i = 0; i < NewMain.SelectedProductsNameList.Count; i++)
                 {
                     boughtProductsDataGrid.Rows.Add(NewMain.SelectedProductsNameList[i],
-                        NewMain.SelectedProductsPriceList[i], "1");
-
+                        NewMain.SelectedProductsPriceList[i], 1,"","",NewMain.SelectedProductsIDList[i]);
+                    
                     sumOfProducts += NewMain.SelectedProductsPriceList[i];
                 }
                 CartPriceLabel.Text = sumOfProducts.ToString();
                 currentTotal = sumOfProducts;
+
+                foreach(DataGridViewRow row in boughtProductsDataGrid.Rows)
+                {
+                    productQuantity = int.Parse(row.Cells["quantityColumn"].Value.ToString());
+                }
             }
+
+
         }
+        private void purchaseButton_Click(object sender, EventArgs e)
+        {
+            string firstName = FirstNameBox.Text;
+            string lastName = LastNameBox.Text;
+            string phoneNum = PhoneNumberBox.Text;
 
+            int customerIdCount = Utilities.GetCustomerCount();
 
+            if (Utilities.ClientChecker(firstName,lastName,phoneNum,customerIdCount) == false)
+            {
+                Utilities.AddNewClient(firstName,lastName,phoneNum);
+            }
+
+            int userID = Utilities.GetCustomerId(firstName, lastName, phoneNum);
+            DateTime time = DateTime.Now;
+
+            foreach (DataGridViewRow row in boughtProductsDataGrid.Rows)
+            {
+                for (int i = 0; i < productQuantity; i++)
+                {
+                    int productId = int.Parse(row.Cells["ID"].Value.ToString());
+                    string productName = row.Cells["productColumn"].Value.ToString();
+                    double productPrice = double.Parse(row.Cells["priceColumn"].Value.ToString());
+
+                    Utilities.PurchaseReport(userID, productId, productName, time, productPrice);
+                }
+            }         
+        }
         private void boughtProductsDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             int rowIndex = e.RowIndex;
             DataGridViewRow row = boughtProductsDataGrid.Rows[rowIndex];
 
-            int productQuantity = 0;
+            productQuantity = 0;
             double totalSum = .0;
             double productPrice = .0;
             if (e.ColumnIndex == boughtProductsDataGrid.Columns["buyMore"].Index)
@@ -123,7 +153,6 @@ namespace PcCatalog
             }
             else if (e.ColumnIndex == boughtProductsDataGrid.Columns["buyLess"].Index)
             {
-
                 if (productQuantity <= 0)
                 {
                     //For display purpose- to display the quantity of bought products
@@ -143,14 +172,14 @@ namespace PcCatalog
                 {
                     boughtProductsDataGrid.Rows.Remove(row);
                 }
-
-
-            }
+            }           
         }
         public static DataGridView BoughtProductsDataGrid
         {
             get { return newCart.boughtProductsDataGrid; }
             set { newCart.boughtProductsDataGrid = value; }
         }
+
+       
     }
 }

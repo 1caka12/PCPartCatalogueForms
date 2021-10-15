@@ -31,7 +31,7 @@ namespace PcCatalog
                         return ProductsDataTable;                                
                     }
                 }
-            }           
+            }             
         }
         public static MySqlConnection ConnectionOpen()
         {
@@ -54,10 +54,10 @@ namespace PcCatalog
             }
         }
 
-        public static int GetIdOfProduct(string product,double price)
+        public static int GetProductId(string database,string product,double price)
         {
             MySqlConnection connection = ConnectionOpen();
-            string productIdQuery = $"SELECT product_id FROM sys.{product} WHERE item={product} AND {product}_price={price}";
+            string productIdQuery = $"SELECT product_id FROM sys.{database} WHERE item='{product}' AND {database}_price={price}";
             MySqlCommand command = new(productIdQuery, connection);
             int id = int.Parse(command.ExecuteScalar().ToString());
             connection.Close();
@@ -120,9 +120,8 @@ namespace PcCatalog
 
         public static void AddNewClient(string firstName,string lastName,string phoneNum)
         {
-            MySqlConnection connection = new();
-            MySqlCommand command = new();
-            connection.Open();
+            MySqlConnection connection = ConnectionOpen();
+            MySqlCommand command = new();        
             string customerInfo = "INSERT INTO sys.customers(first_name,last_name,phone) VALUES (@first,@last,@phone)";
 
             MySqlParameter firstNameParam = new();
@@ -145,12 +144,7 @@ namespace PcCatalog
             MySqlDataReader reader = command.ExecuteReader();
             connection.Close();
         }
-
-        public static void AddToReport()
-        {
-
-        }
-
+  
         public static int GetCustomerCount()
         {
             MySqlConnection connection = ConnectionOpen();
@@ -159,5 +153,85 @@ namespace PcCatalog
             int customerIdCount = int.Parse(command.ExecuteScalar().ToString());
             return customerIdCount;
         }
+
+        public static int GetCustomerId(string firstName,string lastName,string phoneNum)
+        {
+            MySqlConnection connection = ConnectionOpen();
+            string userIDString = $"SELECT customer_id FROM sys.customers WHERE first_name = '{firstName}' AND phone ='{phoneNum}' AND last_name ='{lastName}'";
+            MySqlCommand userIdCommand = new(userIDString, connection);
+            int userID = int.Parse(userIdCommand.ExecuteScalar().ToString()); // for report
+            connection.Close();
+            return userID;
+        }
+
+        public static int GetProductCount(string product)
+        {
+            MySqlConnection connection = ConnectionOpen();
+            string productCountQuery = $"SELECT COUNT(*) FROM sys.{product} WHERE status = '1'";
+            MySqlCommand command = new(productCountQuery,connection);
+            int productCount = int.Parse(command.ExecuteScalar().ToString());
+            return productCount;
+        }
+        public static List<string> ProductIdList(string product)
+        {         
+            MySqlConnection connection = ConnectionOpen();
+            List<string> idList = new();
+
+            string idQuery = $"SELECT product_id FROM sys.{product} WHERE status = '1'";
+            MySqlCommand command = new(idQuery, connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            
+            while (reader.Read())
+            {
+                idList.Add(reader[0].ToString());
+            }
+            connection.Close();
+            return idList;
+        }
+
+        public static void PurchaseReport(int userID,int productID,string product,DateTime time,double productPrice)
+        {
+            MySqlConnection connection = ConnectionOpen();
+            string report = "INSERT INTO sys.report(customer_id,product_id,product,date,price,removed) " +
+                    "VALUES (@customer,@productid,@product,@date,@price,@removed)";
+
+            MySqlParameter customerParam = new();
+            customerParam.ParameterName = "@customer";
+            customerParam.Value = userID;
+
+            MySqlParameter productIdParam = new();
+            productIdParam.ParameterName = "@productid";
+            productIdParam.Value = productID;
+
+            MySqlParameter productParam = new();
+            productParam.ParameterName = "@product";
+            productParam.Value = product;
+
+            MySqlParameter timeParam = new();
+            timeParam.ParameterName = "@date";
+            timeParam.Value = time;
+
+            MySqlParameter priceParam = new();
+            priceParam.ParameterName = "@price";
+            priceParam.Value = productPrice;
+
+            MySqlParameter removedParam = new();// if the product is removed from the entire database
+            removedParam.ParameterName = "@removed";
+            removedParam.Value = "0";
+
+            MySqlCommand reportInsertion = new(report, connection);
+            reportInsertion.Parameters.Add(customerParam);
+            reportInsertion.Parameters.Add(productIdParam);
+            reportInsertion.Parameters.Add(timeParam);
+            reportInsertion.Parameters.Add(productParam);
+            reportInsertion.Parameters.Add(priceParam);
+            reportInsertion.Parameters.Add(removedParam);
+
+            MySqlDataReader reader = reportInsertion.ExecuteReader();
+            connection.Close();
+        }
+
+
+        
     }
 }

@@ -117,7 +117,7 @@ namespace PcCatalog
                 priceParam.ParameterName = "@price";
                 priceParam.Value = productPrice;
 
-                MySqlParameter removedParam = new();
+                MySqlParameter removedParam = new();// if the product is removed from the entire database
                 removedParam.ParameterName = "@removed";
                 removedParam.Value = "0";
 
@@ -233,7 +233,7 @@ namespace PcCatalog
             connection.Close();
 
             if (fName == firstName && lName == lastName && phoneNum == phone)
-            {  return true ; }
+            {  return true; }
             else
             { return ClientChecker(firstName,lastName,phoneNum, customerIdCount - 1); }              
                   
