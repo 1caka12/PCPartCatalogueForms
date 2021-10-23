@@ -13,6 +13,8 @@ namespace PcCatalog
         private static int displayQuantity = 0;
         private static double currentTotal = 0;
         private static int productQuantity = 0;
+        private static int totalProductQuantity = 0;
+        
         public NewCart()
         {
             InitializeComponent();
@@ -92,11 +94,7 @@ namespace PcCatalog
                 }
                 CartPriceLabel.Text = sumOfProducts.ToString();
                 currentTotal = sumOfProducts;
-
-                foreach(DataGridViewRow row in boughtProductsDataGrid.Rows)
-                {
-                    productQuantity = int.Parse(row.Cells["quantityColumn"].Value.ToString());
-                }
+                
             }
 
 
@@ -117,9 +115,41 @@ namespace PcCatalog
             int userID = Utilities.GetCustomerId(firstName, lastName, phoneNum);
             DateTime time = DateTime.Now;
 
+            /*
             foreach (DataGridViewRow row in boughtProductsDataGrid.Rows)
             {
-                for (int i = 0; i < productQuantity; i++)
+                totalProductQuantity += int.Parse(row.Cells["quantityColumn"].Value.ToString());
+            }*/
+
+            int rowCount = boughtProductsDataGrid.RowCount;
+            for (int k = 0; k < rowCount; k++)
+            {
+                totalProductQuantity = int.Parse(boughtProductsDataGrid.Rows[k].Cells["quantityColumn"].Value.ToString());
+                for (int i = 0; i < totalProductQuantity; i++)
+                {
+                    int productId = int.Parse(boughtProductsDataGrid.Rows[k].Cells["ID"].Value.ToString());
+                    string productName = boughtProductsDataGrid.Rows[k].Cells["productColumn"].Value.ToString();
+                    double productPrice = double.Parse(boughtProductsDataGrid.Rows[k].Cells["priceColumn"].Value.ToString());
+
+                    Utilities.PurchaseReport(userID, productId, productName, time, productPrice);
+                }
+            }
+            /*
+            foreach (DataGridViewRow row in boughtProductsDataGrid.Rows)
+            {
+                        
+                if (totalProductQuantity > 0)
+                {
+                    for (int i = 0; i < totalProductQuantity; i++)
+                    {
+                        int productId = int.Parse(row.Cells["ID"].Value.ToString());
+                        string productName = row.Cells["productColumn"].Value.ToString();
+                        double productPrice = double.Parse(row.Cells["priceColumn"].Value.ToString());
+
+                        Utilities.PurchaseReport(userID, productId, productName, time, productPrice);
+                    }
+                }
+                else if(totalProductQuantity == 0)
                 {
                     int productId = int.Parse(row.Cells["ID"].Value.ToString());
                     string productName = row.Cells["productColumn"].Value.ToString();
@@ -127,14 +157,14 @@ namespace PcCatalog
 
                     Utilities.PurchaseReport(userID, productId, productName, time, productPrice);
                 }
-            }         
+            }*/
         }
         private void boughtProductsDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             int rowIndex = e.RowIndex;
             DataGridViewRow row = boughtProductsDataGrid.Rows[rowIndex];
 
-            productQuantity = 0;
+            int productQuantity = 0;
             double totalSum = .0;
             double productPrice = .0;
             if (e.ColumnIndex == boughtProductsDataGrid.Columns["buyMore"].Index)
@@ -172,7 +202,9 @@ namespace PcCatalog
                 {
                     boughtProductsDataGrid.Rows.Remove(row);
                 }
-            }           
+            }
+
+           
         }
         public static DataGridView BoughtProductsDataGrid
         {
