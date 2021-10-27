@@ -96,8 +96,6 @@ namespace PcCatalog
                 currentTotal = sumOfProducts;
                 
             }
-
-
         }
         private void purchaseButton_Click(object sender, EventArgs e)
         {
@@ -115,12 +113,6 @@ namespace PcCatalog
             int userID = Utilities.GetCustomerId(firstName, lastName, phoneNum);
             DateTime time = DateTime.Now;
 
-            /*
-            foreach (DataGridViewRow row in boughtProductsDataGrid.Rows)
-            {
-                totalProductQuantity += int.Parse(row.Cells["quantityColumn"].Value.ToString());
-            }*/
-
             int rowCount = boughtProductsDataGrid.RowCount;
             for (int k = 0; k < rowCount; k++)
             {
@@ -134,30 +126,7 @@ namespace PcCatalog
                     Utilities.PurchaseReport(userID, productId, productName, time, productPrice);
                 }
             }
-            /*
-            foreach (DataGridViewRow row in boughtProductsDataGrid.Rows)
-            {
-                        
-                if (totalProductQuantity > 0)
-                {
-                    for (int i = 0; i < totalProductQuantity; i++)
-                    {
-                        int productId = int.Parse(row.Cells["ID"].Value.ToString());
-                        string productName = row.Cells["productColumn"].Value.ToString();
-                        double productPrice = double.Parse(row.Cells["priceColumn"].Value.ToString());
-
-                        Utilities.PurchaseReport(userID, productId, productName, time, productPrice);
-                    }
-                }
-                else if(totalProductQuantity == 0)
-                {
-                    int productId = int.Parse(row.Cells["ID"].Value.ToString());
-                    string productName = row.Cells["productColumn"].Value.ToString();
-                    double productPrice = double.Parse(row.Cells["priceColumn"].Value.ToString());
-
-                    Utilities.PurchaseReport(userID, productId, productName, time, productPrice);
-                }
-            }*/
+           
         }
         private void boughtProductsDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

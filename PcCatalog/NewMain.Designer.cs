@@ -49,9 +49,29 @@ namespace PcCatalog
             this.label2 = new System.Windows.Forms.Label();
             this.costLabel = new System.Windows.Forms.Label();
             this.toCartButton = new System.Windows.Forms.Button();
+            this.ProductLabel = new System.Windows.Forms.Label();
+            this.AdminProductsPanel = new System.Windows.Forms.Panel();
+            this.ItemComboBox = new System.Windows.Forms.ComboBox();
+            this.AdminDataBaseEditorPanel = new System.Windows.Forms.Panel();
+            this.SaveCancelPanel = new System.Windows.Forms.Panel();
+            this.SaveButton = new System.Windows.Forms.Button();
+            this.CancelButton = new System.Windows.Forms.Button();
+            this.ReturnButton = new System.Windows.Forms.Button();
+            this.StatusBox = new System.Windows.Forms.TextBox();
+            this.PriceBox = new System.Windows.Forms.TextBox();
+            this.ModelBox = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.RemoveProductButton = new System.Windows.Forms.Button();
+            this.CorrectionButton = new System.Windows.Forms.Button();
+            this.NewProductButton = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.productSalesDataGrid)).BeginInit();
             this.shopCostPanel.SuspendLayout();
+            this.AdminProductsPanel.SuspendLayout();
+            this.AdminDataBaseEditorPanel.SuspendLayout();
+            this.SaveCancelPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -137,6 +157,7 @@ namespace PcCatalog
             this.adminMenu.Name = "adminMenu";
             this.adminMenu.Size = new System.Drawing.Size(68, 25);
             this.adminMenu.Text = "Admin";
+            this.adminMenu.Click += new System.EventHandler(this.adminMenu_Click);
             // 
             // reportMenu
             // 
@@ -159,18 +180,20 @@ namespace PcCatalog
             this.clientsToolStripMenuItem.Name = "clientsToolStripMenuItem";
             this.clientsToolStripMenuItem.Size = new System.Drawing.Size(127, 26);
             this.clientsToolStripMenuItem.Text = "Clients";
+            this.clientsToolStripMenuItem.Visible = false;
             // 
             // productSalesDataGrid
             // 
             this.productSalesDataGrid.AllowUserToAddRows = false;
             this.productSalesDataGrid.AllowUserToDeleteRows = false;
             this.productSalesDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.productSalesDataGrid.Location = new System.Drawing.Point(218, 106);
+            this.productSalesDataGrid.Location = new System.Drawing.Point(218, 88);
             this.productSalesDataGrid.Name = "productSalesDataGrid";
             this.productSalesDataGrid.RowTemplate.Height = 25;
-            this.productSalesDataGrid.Size = new System.Drawing.Size(320, 216);
+            this.productSalesDataGrid.Size = new System.Drawing.Size(335, 234);
             this.productSalesDataGrid.TabIndex = 2;
             this.productSalesDataGrid.Visible = false;
+            this.productSalesDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.productSalesDataGrid_CellClick);
             this.productSalesDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.productSalesDataGrid_CellContentClick);
             // 
             // exitButton
@@ -204,7 +227,6 @@ namespace PcCatalog
             this.shopCostPanel.Size = new System.Drawing.Size(278, 47);
             this.shopCostPanel.TabIndex = 5;
             this.shopCostPanel.Visible = false;
-           
             // 
             // label2
             // 
@@ -235,11 +257,182 @@ namespace PcCatalog
             this.toCartButton.Visible = false;
             this.toCartButton.Click += new System.EventHandler(this.toCartButton_Click);
             // 
+            // ProductLabel
+            // 
+            this.ProductLabel.AutoSize = true;
+            this.ProductLabel.Location = new System.Drawing.Point(42, 16);
+            this.ProductLabel.Name = "ProductLabel";
+            this.ProductLabel.Size = new System.Drawing.Size(54, 15);
+            this.ProductLabel.TabIndex = 7;
+            this.ProductLabel.Text = "Products";
+            // 
+            // AdminProductsPanel
+            // 
+            this.AdminProductsPanel.Controls.Add(this.ItemComboBox);
+            this.AdminProductsPanel.Controls.Add(this.ProductLabel);
+            this.AdminProductsPanel.Location = new System.Drawing.Point(12, 106);
+            this.AdminProductsPanel.Name = "AdminProductsPanel";
+            this.AdminProductsPanel.Size = new System.Drawing.Size(200, 120);
+            this.AdminProductsPanel.TabIndex = 9;
+            this.AdminProductsPanel.Visible = false;
+            // 
+            // ItemComboBox
+            // 
+            this.ItemComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ItemComboBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ItemComboBox.FormattingEnabled = true;
+            this.ItemComboBox.Location = new System.Drawing.Point(10, 51);
+            this.ItemComboBox.Name = "ItemComboBox";
+            this.ItemComboBox.Size = new System.Drawing.Size(150, 25);
+            this.ItemComboBox.TabIndex = 32;
+            this.ItemComboBox.SelectedIndexChanged += new System.EventHandler(this.ItemComboBox_SelectedIndexChanged);
+            // 
+            // AdminDataBaseEditorPanel
+            // 
+            this.AdminDataBaseEditorPanel.Controls.Add(this.SaveCancelPanel);
+            this.AdminDataBaseEditorPanel.Controls.Add(this.ReturnButton);
+            this.AdminDataBaseEditorPanel.Controls.Add(this.StatusBox);
+            this.AdminDataBaseEditorPanel.Controls.Add(this.PriceBox);
+            this.AdminDataBaseEditorPanel.Controls.Add(this.ModelBox);
+            this.AdminDataBaseEditorPanel.Controls.Add(this.label5);
+            this.AdminDataBaseEditorPanel.Controls.Add(this.label4);
+            this.AdminDataBaseEditorPanel.Controls.Add(this.label3);
+            this.AdminDataBaseEditorPanel.Controls.Add(this.RemoveProductButton);
+            this.AdminDataBaseEditorPanel.Controls.Add(this.CorrectionButton);
+            this.AdminDataBaseEditorPanel.Controls.Add(this.NewProductButton);
+            this.AdminDataBaseEditorPanel.Location = new System.Drawing.Point(0, 328);
+            this.AdminDataBaseEditorPanel.Name = "AdminDataBaseEditorPanel";
+            this.AdminDataBaseEditorPanel.Size = new System.Drawing.Size(800, 117);
+            this.AdminDataBaseEditorPanel.TabIndex = 10;
+            this.AdminDataBaseEditorPanel.Visible = false;
+            // 
+            // SaveCancelPanel
+            // 
+            this.SaveCancelPanel.Controls.Add(this.SaveButton);
+            this.SaveCancelPanel.Controls.Add(this.CancelButton);
+            this.SaveCancelPanel.Location = new System.Drawing.Point(307, 53);
+            this.SaveCancelPanel.Name = "SaveCancelPanel";
+            this.SaveCancelPanel.Size = new System.Drawing.Size(143, 61);
+            this.SaveCancelPanel.TabIndex = 12;
+            this.SaveCancelPanel.Visible = false;
+            // 
+            // SaveButton
+            // 
+            this.SaveButton.Location = new System.Drawing.Point(37, 3);
+            this.SaveButton.Name = "SaveButton";
+            this.SaveButton.Size = new System.Drawing.Size(75, 23);
+            this.SaveButton.TabIndex = 10;
+            this.SaveButton.Text = "Save";
+            this.SaveButton.UseVisualStyleBackColor = true;
+            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            // 
+            // CancelButton
+            // 
+            this.CancelButton.Location = new System.Drawing.Point(37, 28);
+            this.CancelButton.Name = "CancelButton";
+            this.CancelButton.Size = new System.Drawing.Size(75, 23);
+            this.CancelButton.TabIndex = 11;
+            this.CancelButton.Text = "Cancel";
+            this.CancelButton.UseVisualStyleBackColor = true;
+            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            // 
+            // ReturnButton
+            // 
+            this.ReturnButton.Location = new System.Drawing.Point(676, 74);
+            this.ReturnButton.Name = "ReturnButton";
+            this.ReturnButton.Size = new System.Drawing.Size(109, 23);
+            this.ReturnButton.TabIndex = 9;
+            this.ReturnButton.Text = "Return To Main";
+            this.ReturnButton.UseVisualStyleBackColor = true;
+            // 
+            // StatusBox
+            // 
+            this.StatusBox.Location = new System.Drawing.Point(539, 17);
+            this.StatusBox.Name = "StatusBox";
+            this.StatusBox.ReadOnly = true;
+            this.StatusBox.Size = new System.Drawing.Size(100, 23);
+            this.StatusBox.TabIndex = 8;
+            // 
+            // PriceBox
+            // 
+            this.PriceBox.Location = new System.Drawing.Point(351, 17);
+            this.PriceBox.Name = "PriceBox";
+            this.PriceBox.ReadOnly = true;
+            this.PriceBox.Size = new System.Drawing.Size(100, 23);
+            this.PriceBox.TabIndex = 7;
+            // 
+            // ModelBox
+            // 
+            this.ModelBox.Location = new System.Drawing.Point(190, 18);
+            this.ModelBox.Name = "ModelBox";
+            this.ModelBox.ReadOnly = true;
+            this.ModelBox.Size = new System.Drawing.Size(100, 23);
+            this.ModelBox.TabIndex = 6;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(457, 21);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(76, 15);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "Status(1 or 0)";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(307, 21);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(33, 15);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Price";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(146, 21);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(41, 15);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Model";
+            // 
+            // RemoveProductButton
+            // 
+            this.RemoveProductButton.Location = new System.Drawing.Point(22, 74);
+            this.RemoveProductButton.Name = "RemoveProductButton";
+            this.RemoveProductButton.Size = new System.Drawing.Size(121, 23);
+            this.RemoveProductButton.TabIndex = 2;
+            this.RemoveProductButton.Text = "Remove Product";
+            this.RemoveProductButton.UseVisualStyleBackColor = true;
+            this.RemoveProductButton.Click += new System.EventHandler(this.RemoveProductButton_Click);
+            // 
+            // CorrectionButton
+            // 
+            this.CorrectionButton.Location = new System.Drawing.Point(22, 46);
+            this.CorrectionButton.Name = "CorrectionButton";
+            this.CorrectionButton.Size = new System.Drawing.Size(121, 23);
+            this.CorrectionButton.TabIndex = 1;
+            this.CorrectionButton.Text = "Correction";
+            this.CorrectionButton.UseVisualStyleBackColor = true;
+            this.CorrectionButton.Click += new System.EventHandler(this.CorrectionButton_Click);
+            // 
+            // NewProductButton
+            // 
+            this.NewProductButton.Location = new System.Drawing.Point(22, 17);
+            this.NewProductButton.Name = "NewProductButton";
+            this.NewProductButton.Size = new System.Drawing.Size(118, 23);
+            this.NewProductButton.TabIndex = 0;
+            this.NewProductButton.Text = "New";
+            this.NewProductButton.UseVisualStyleBackColor = true;
+            this.NewProductButton.Click += new System.EventHandler(this.NewProductButton_Click);
+            // 
             // NewMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.AdminDataBaseEditorPanel);
+            this.Controls.Add(this.AdminProductsPanel);
             this.Controls.Add(this.toCartButton);
             this.Controls.Add(this.shopCostPanel);
             this.Controls.Add(this.exitButton);
@@ -254,6 +447,11 @@ namespace PcCatalog
             ((System.ComponentModel.ISupportInitialize)(this.productSalesDataGrid)).EndInit();
             this.shopCostPanel.ResumeLayout(false);
             this.shopCostPanel.PerformLayout();
+            this.AdminProductsPanel.ResumeLayout(false);
+            this.AdminProductsPanel.PerformLayout();
+            this.AdminDataBaseEditorPanel.ResumeLayout(false);
+            this.AdminDataBaseEditorPanel.PerformLayout();
+            this.SaveCancelPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -281,5 +479,22 @@ namespace PcCatalog
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label costLabel;
         private System.Windows.Forms.Button toCartButton;
+        private System.Windows.Forms.Label ProductLabel;
+        private System.Windows.Forms.Panel AdminProductsPanel;
+        private System.Windows.Forms.Panel AdminDataBaseEditorPanel;
+        private System.Windows.Forms.TextBox StatusBox;
+        private System.Windows.Forms.TextBox PriceBox;
+        private System.Windows.Forms.TextBox ModelBox;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button RemoveProductButton;
+        private System.Windows.Forms.Button CorrectionButton;
+        private System.Windows.Forms.Button NewProductButton;
+        private System.Windows.Forms.Button ReturnButton;
+        private System.Windows.Forms.ComboBox ItemComboBox;
+        private System.Windows.Forms.Button SaveButton;
+        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Panel SaveCancelPanel;
     }
 }

@@ -13,7 +13,11 @@ namespace PcCatalog
         private static List<double> selectedProductsPrice;
         private static List<string> selectedProductsName;
         private static List<int> selectedProductsId;
-        private static string currentProduct;
+        private static string currentProductType;
+        private static string changeToDataBase;
+        private static string changeToDataBaseQuery;
+        private static string mode;
+        
        
         
         NewCart newCart = new();
@@ -28,83 +32,84 @@ namespace PcCatalog
         }
         
 
-       //
-       //Buttons for products
+       
+       //Buttons for products on the client side
        //
         private void processorMenuItem_Click(object sender, EventArgs e)
         {
-            currentProduct = "cpu";
+            currentProductType = "cpu";
             if(shopCostPanel.Visible==false)
                OpenMenu("shop");
                  
-            productSalesDataGrid.DataSource = Utilities.ProductsDataTable("cpu");
+            productSalesDataGrid.DataSource = Utilities.ClientProductsDataTable("cpu");
             Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);        
         }
 
         private void graphicsCardsMenuItem_Click(object sender, EventArgs e)
         {
-            currentProduct = "gpu";
+            currentProductType = "gpu";
             if (shopCostPanel.Visible == false)
                 OpenMenu("shop");
 
-            productSalesDataGrid.DataSource = Utilities.ProductsDataTable("gpu");
+            productSalesDataGrid.DataSource = Utilities.ClientProductsDataTable("gpu");
             Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
 
         }
 
         private void hardDrivesMenuItem_Click(object sender, EventArgs e)
         {
-            currentProduct = "hdd";
+            currentProductType = "hdd";
             if (shopCostPanel.Visible == false)
                 OpenMenu("shop");
 
-            productSalesDataGrid.DataSource = Utilities.ProductsDataTable("hdd");
+            productSalesDataGrid.DataSource = Utilities.ClientProductsDataTable("hdd");
             Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
         }
 
         private void motherboardsMenuItem_Click(object sender, EventArgs e)
         {
-            currentProduct = "mobo";
+            currentProductType = "mobo";
             if (shopCostPanel.Visible == false)
                 OpenMenu("shop");
 
-           productSalesDataGrid.DataSource = Utilities.ProductsDataTable("mobo");
+           productSalesDataGrid.DataSource = Utilities.ClientProductsDataTable("mobo");
             Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
         }
 
         private void powerSuppliesMenuItem_Click(object sender, EventArgs e)
         {
-            currentProduct = "psu";
+            currentProductType = "psu";
             if (shopCostPanel.Visible == false)
                 OpenMenu("shop");
 
-           productSalesDataGrid.DataSource = Utilities.ProductsDataTable("psu");
+           productSalesDataGrid.DataSource = Utilities.ClientProductsDataTable("psu");
             Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
         }
 
         private void ramMenuItem_Click(object sender, EventArgs e)
         {
-            currentProduct = "ram";
+            currentProductType = "ram";
             if (shopCostPanel.Visible == false)
                 OpenMenu("shop");
 
-            productSalesDataGrid.DataSource = Utilities.ProductsDataTable("ram");
+            productSalesDataGrid.DataSource = Utilities.ClientProductsDataTable("ram");
             Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
         }
 
         private void ssdMenuItem_Click(object sender, EventArgs e)
         {
-            currentProduct = "ssd";
+            currentProductType = "ssd";
             if (shopCostPanel.Visible == false)
                 OpenMenu("shop");
 
-           productSalesDataGrid.DataSource = Utilities.ProductsDataTable("ssd");
+           productSalesDataGrid.DataSource = Utilities.ClientProductsDataTable("ssd");
             Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
         }
-        //
-        //
-        //
+        //Buttons for products on the client side
+      
+        
 
+        // Shop         
         private void exitButton_Click(object sender, EventArgs e)
         {
             if(shopCostPanel.Visible == true)
@@ -112,12 +117,20 @@ namespace PcCatalog
         }
         private void OpenMenu(string menu)
         {
-            exitButton.Visible = true;
+           //exitButton.Visible = true;
             productSalesDataGrid.Visible = true;
             if (menu == "shop")
             {
                 shopCostPanel.Visible = true;
                 toCartButton.Visible = true;             
+            }    
+            else if(menu=="admin")
+            {
+                AdminProductsPanel.Visible = true;
+                AdminDataBaseEditorPanel.Visible = true;
+
+                shopCostPanel.Visible = false;
+                toCartButton.Visible = false;
             }
         }
         private void ExitMenu(string menu)
@@ -127,26 +140,43 @@ namespace PcCatalog
             if (menu == "shop")
             {
                 shopCostPanel.Visible = false;
-                toCartButton.Visible = false;           
+                toCartButton.Visible = false;
+                exitButton.Visible = false;
+                productSalesDataGrid.DataSource = null;
+                if (selectedProductsId != null)
+                {
+                    selectedProductsId.Clear();
+                    selectedProductsName.Clear();
+                    selectedProductsPrice.Clear();
+                }
+            }
+            else if (menu == "admin")
+            {
+                AdminProductsPanel.Visible = false;
+                AdminDataBaseEditorPanel.Visible = false;
             }
         }
 
         private void productSalesDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            int rowIndex = e.RowIndex;
-            DataGridViewRow row = productSalesDataGrid.Rows[rowIndex];
-            
-            if (e.ColumnIndex == productSalesDataGrid.Columns["buttonColumn"].Index)
+            if (mode != "admin")
             {
-                double price = double.Parse(row.Cells[2].Value.ToString());
-                string name = row.Cells[1].Value.ToString();
-                costLabel.Text = Utilities.DisplayPrice(price, "add");
-                selectedProductsPrice.Add(price);
-                selectedProductsName.Add(name);
-                selectedProductsId.Add(Utilities.GetProductId(currentProduct,name,price));
+                int rowIndex = e.RowIndex;
+                DataGridViewRow row = productSalesDataGrid.Rows[rowIndex];
 
-                productSalesDataGrid.Rows.Remove(row);           
+                if (e.ColumnIndex == productSalesDataGrid.Columns["buttonColumn"].Index)
+                {
+                    double price = double.Parse(row.Cells[2].Value.ToString());
+                    string name = row.Cells[1].Value.ToString();
+                    costLabel.Text = Utilities.DisplayPrice(price, "add");
+                    selectedProductsPrice.Add(price);
+                    selectedProductsName.Add(name);
+                    selectedProductsId.Add(Utilities.GetProductId(currentProductType, name, price.ToString()));
+
+                    productSalesDataGrid.Rows.Remove(row);
+                }
             }
+
             
         }
     
@@ -167,10 +197,45 @@ namespace PcCatalog
                 selectedProductsName = new();
                 selectedProductsPrice = new();
                 selectedProductsId = new();            
-            }          
-            
+            }
+
+            if(AdminDataBaseEditorPanel.Visible == true)
+            {
+                ExitMenu("admin");
+            }
+
+            mode = "user";
+            ModelBox.Text = "";
+            PriceBox.Text = "";
+            StatusBox.Text = "";
         }
-      
+
+        private void adminMenu_Click(object sender, EventArgs e)
+        {
+            AdminProductsPanel.Show();
+            AdminDataBaseEditorPanel.Show();
+            productSalesDataGrid.Visible = true;
+            mode = "admin";
+
+            if(ItemComboBox.Items.Count == 0)
+            {
+                ItemComboBox.Items.Add("Processors(CPU)");
+                ItemComboBox.Items.Add("Graphics Cards(GPU)");
+                ItemComboBox.Items.Add("Hard Drives(HDD)");
+                ItemComboBox.Items.Add("Motherboards(MOBO)");
+                ItemComboBox.Items.Add("Power Supplies(PSU)");
+                ItemComboBox.Items.Add("Ram");
+                ItemComboBox.Items.Add("Solid State Drives(SSD)");
+            }
+
+            if(buttonColumn!=null)
+            {
+                productSalesDataGrid.Columns.Remove(buttonColumn);
+            }
+            ExitMenu("shop");
+            OpenMenu("admin");         
+        }
+
         private void toCartButton_Click(object sender, EventArgs e)
         {
             newCart.Show();
@@ -192,6 +257,151 @@ namespace PcCatalog
             get { return selectedProductsId; }
             set { selectedProductsId = value; }
         }
+        // Shop
+
+        // Admin
+        private void NewProductButton_Click(object sender, EventArgs e)
+        {
+            changeToDataBase = "addProduct";
+            changeToDataBase = $"INSERT INTO sys.{currentProductType} (item,{currentProductType}_price,status) VALUES (@item,@price,@status)";
+            SaveCancelPanel.Visible = true;
+            ModelBox.ReadOnly = false;
+            PriceBox.ReadOnly = false;
+            StatusBox.ReadOnly = false;
+
+            CorrectionButton.Visible = false;
+            RemoveProductButton.Visible = false;
+        }
+
+        private void CorrectionButton_Click(object sender, EventArgs e)
+        {
+            changeToDataBase = "addCorrection";
+            SaveCancelPanel.Visible = true;
+
+            ModelBox.ReadOnly = false;
+            PriceBox.ReadOnly = false;
+            StatusBox.ReadOnly = false;
+
+            NewProductButton.Visible = false;
+            RemoveProductButton.Visible = false;
+        }
+
+        private void RemoveProductButton_Click(object sender, EventArgs e)
+        {
+            string product = ModelBox.Text;
+            string price = ModelBox.Text;
+            int productId = Utilities.GetProductId(currentProductType, product, price);
+            
+            changeToDataBase = "remove";
+
+            changeToDataBaseQuery = $"DELETE FROM sys.{currentProductType} WHERE product_id={productId}";
+
+            SaveCancelPanel.Visible = true;
+            MessageBox.Show("Deleting this product will permamently remove it from the Database! " +
+                "To proceed with the changes press the 'Save' button below.", "Deleting Product?", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            NewProductButton.Visible = false;
+            CorrectionButton.Visible = false;
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            string model = ModelBox.Text;
+            string price = PriceBox.Text;
+            string status = StatusBox.Text;
+
+            if (changeToDataBase == "addProduct") 
+                Utilities.AddProductToDataBase(model, price, status, changeToDataBaseQuery);
+            else if(changeToDataBase == "addCorrection")
+            {
+                if (!ModelBox.Text.Equals("") && !PriceBox.Text.Equals("") && !StatusBox.Text.Equals(""))
+                {                                    
+                    int productId = Utilities.GetProductId(currentProductType, model, price);
+                    changeToDataBaseQuery = $"UPDATE sys.{currentProductType} SET item = @item, {currentProductType}_price = @price, status = @status WHERE product_id = {productId}";
+
+                    Utilities.CorrectionToDataBase(model, price, status, changeToDataBaseQuery);
+                }
+                else
+                {
+                    MessageBox.Show("Select an item");
+                }
+            }
+            else if(changeToDataBase == "remove")           
+                Utilities.RemoveProductFromDataBase(model, changeToDataBaseQuery);
+
+            ModelBox.ReadOnly = true;
+            PriceBox.ReadOnly = true;
+            StatusBox.ReadOnly = true;
+
+            NewProductButton.Visible = true;
+            CorrectionButton.Visible = true;
+            RemoveProductButton.Visible = true;
+        }
+    
+        private void CancelButton_Click(object sender, EventArgs e)
+        {
+            ModelBox.Text = "";
+            PriceBox.Text = "";
+            StatusBox.Text = "";
+            SaveCancelPanel.Visible = false;
+        }
+
+        private void ItemComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (ItemComboBox.Text)
+            {
+                case "Processors(CPU)":
+                    currentProductType = "cpu";
+                    productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("cpu");
+                    break;
+                case "Graphics Cards(GPU)":
+                    currentProductType = "gpu";
+                    productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("gpu");
+                    break;
+                case "Hard Drives(HDD)":
+                    currentProductType = "hdd";
+                    productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("hdd");
+                    break;
+                case "Motherboards(MOBO)":
+                    currentProductType = "mobo";
+                    productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("mobo");
+                    break;
+                case "Power Supplies(PSU)":
+                    currentProductType = "psu";
+                    productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("psu");
+                    break;
+                case "Ram":
+                    currentProductType = "ram";
+                    productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("ram");
+                    break;
+                case "Solid State Drives(SSD)":
+                    currentProductType = "ssd";
+                    productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("ssd");
+                    break;
+            }
+        }
+
+        private void productSalesDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewRow row = new();
+            if (mode == "admin")
+            {
+                if (e.RowIndex > -1)
+                {
+                    int rowIndex = e.RowIndex;
+                    row = productSalesDataGrid.Rows[rowIndex];                  
+
+                    string item = row.Cells[1].Value.ToString();
+                    string price = row.Cells[2].Value.ToString();
+                    string status = row.Cells[3].Value.ToString();
+
+                    ModelBox.Text = item;
+                    PriceBox.Text = price;
+                    StatusBox.Text = status;
+                }
+            }
+        }
+        //Admin
     }
         
 }
