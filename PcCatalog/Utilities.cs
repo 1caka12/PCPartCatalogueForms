@@ -348,6 +348,51 @@ namespace PcCatalog
                 connection.Close();
             }
         }
+
+        public static List<string> RepeatedItemsInReport()
+        {
+            MySqlConnection connnection = ConnectionOpen();
+
+            string duplicateItemsInQuery = $"SELECT product FROM sys.report GROUP BY product HAVING COUNT(product)>1";
+            MySqlCommand command = new(duplicateItemsInQuery, connnection);
+            MySqlDataReader reader = command.ExecuteReader();
+
+            List<string> repeatedItemsList = new();
+
+            while (reader.Read())
+            {
+                repeatedItemsList.Add(reader[0].ToString());
+            }
+            connnection.Close();
+
+            return repeatedItemsList;
+        }
+
+        public static double TotalIncomePerRepeatedProduct(List<string> repeatedItemList,int productIndex)
+        {
+            MySqlConnection connection = new();          
+
+            string itemPriceQuery= $"SELECT price FROM sys.report WHERE product ='{repeatedItemList[productIndex]}'"; // gets the price of the duplicate item
+            MySqlCommand command = new(itemPriceQuery, connection);
+            double itemPrice = double.Parse(command.ExecuteScalar().ToString());
+            connection.Close();
+
+            return itemPrice;
+        }
+
+        public static int TotalOrdersPerRepeatedProduct(List<string> repeatedItemList, int productIndex)
+        {
+            MySqlConnection connection = new();
+
+            string ordersQuery = $"SELECT COUNT(*) FROM sys.report WHERE product = '{repeatedItemList[productIndex]}'";
+            MySqlCommand command = new(ordersQuery,connection);
+            int orders = int.Parse(command.ExecuteScalar().ToString());
+            connection.Close();
+
+            return orders;
+        }
+
+        
         
         
     }

@@ -357,7 +357,7 @@ namespace PcCatalog
                 connection.Open();
                 string purchasesString = "SELECT COUNT(*) FROM sys.report";
                 MySqlCommand command = new(purchasesString, connection);
-                int purchases = int.Parse(command.ExecuteScalar().ToString());
+                //int purchases = int.Parse(command.ExecuteScalar().ToString());
                 connection.Close();
 
                 connection.Open();

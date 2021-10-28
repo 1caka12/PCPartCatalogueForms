@@ -17,7 +17,9 @@ namespace PcCatalog
         private static string changeToDataBase;
         private static string changeToDataBaseQuery;
         private static string mode;
-        
+        private DataTable salesCustomersTable;
+        private DataRow dtRow;
+        private DataColumn dtColumn;
        
         
         NewCart newCart = new();
@@ -126,7 +128,7 @@ namespace PcCatalog
             }    
             else if(menu=="admin")
             {
-                AdminProductsPanel.Visible = true;
+                ProductsPanel.Visible = true;
                 AdminDataBaseEditorPanel.Visible = true;
 
                 shopCostPanel.Visible = false;
@@ -152,7 +154,7 @@ namespace PcCatalog
             }
             else if (menu == "admin")
             {
-                AdminProductsPanel.Visible = false;
+                ProductsPanel.Visible = false;
                 AdminDataBaseEditorPanel.Visible = false;
             }
         }
@@ -212,7 +214,7 @@ namespace PcCatalog
 
         private void adminMenu_Click(object sender, EventArgs e)
         {
-            AdminProductsPanel.Show();
+            ProductsPanel.Show();
             AdminDataBaseEditorPanel.Show();
             productSalesDataGrid.Visible = true;
             mode = "admin";
@@ -263,7 +265,7 @@ namespace PcCatalog
         private void NewProductButton_Click(object sender, EventArgs e)
         {
             changeToDataBase = "addProduct";
-            changeToDataBase = $"INSERT INTO sys.{currentProductType} (item,{currentProductType}_price,status) VALUES (@item,@price,@status)";
+            changeToDataBaseQuery = $"INSERT INTO sys.{currentProductType} (item,{currentProductType}_price,status) VALUES (@item,@price,@status)";
             SaveCancelPanel.Visible = true;
             ModelBox.ReadOnly = false;
             PriceBox.ReadOnly = false;
@@ -289,7 +291,7 @@ namespace PcCatalog
         private void RemoveProductButton_Click(object sender, EventArgs e)
         {
             string product = ModelBox.Text;
-            string price = ModelBox.Text;
+            string price = PriceBox.Text;
             int productId = Utilities.GetProductId(currentProductType, product, price);
             
             changeToDataBase = "remove";
@@ -332,10 +334,15 @@ namespace PcCatalog
             ModelBox.ReadOnly = true;
             PriceBox.ReadOnly = true;
             StatusBox.ReadOnly = true;
+            ModelBox.Text = "";
+            PriceBox.Text = "";
+            StatusBox.Text = "";
 
             NewProductButton.Visible = true;
             CorrectionButton.Visible = true;
             RemoveProductButton.Visible = true;
+
+            SaveCancelPanel.Visible = false;
         }
     
         private void CancelButton_Click(object sender, EventArgs e)
@@ -402,6 +409,74 @@ namespace PcCatalog
             }
         }
         //Admin
+
+        private void salesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (AdminDataBaseEditorPanel.Visible == true || shopCostPanel.Visible == true)
+            {
+                AdminDataBaseEditorPanel.Visible = false;
+                shopCostPanel.Visible = false;
+            }
+            ProductsPanel.Visible = true;
+
+            if(salesCustomersTable == null)
+            {
+                salesCustomersTable = new("Sales Report");
+            }
+
+            if(!salesCustomersTable.Columns.Contains("product"))
+            {              
+                dtColumn = new();
+                dtColumn.DataType = typeof(string);
+                dtColumn.ColumnName = "product";
+                dtColumn.Caption = "Product";
+                dtColumn.ReadOnly = false;
+                dtColumn.Unique = false;
+                salesCustomersTable.Columns.Add(dtColumn);
+
+                dtColumn = new();
+                dtColumn.DataType = typeof(double);
+                dtColumn.ColumnName = "price";
+                dtColumn.Caption = "Price";
+                dtColumn.ReadOnly = false;
+                dtColumn.Unique = false;
+                salesCustomersTable.Columns.Add(dtColumn);
+
+                dtColumn = new();
+                dtColumn.DataType = typeof(int);
+                dtColumn.ColumnName = "orders";
+                dtColumn.Caption = "Orders";
+                dtColumn.ReadOnly = false;
+                dtColumn.Unique = false;
+                salesCustomersTable.Columns.Add(dtColumn);
+
+                dtColumn = new();
+                dtColumn.DataType = typeof(double);
+                dtColumn.ColumnName = "total";
+                dtColumn.Caption = "Total";
+                dtColumn.ReadOnly = false;
+                dtColumn.Unique = false;
+                salesCustomersTable.Columns.Add(dtColumn);
+            }
+
+            List<string> repeatedItemsInReport = Utilities.RepeatedItemsInReport();
+            double itemPrice = 0;
+            int orders = 0;
+            for(int i = 0; i < repeatedItemsInReport.Count; i++)
+            {
+                itemPrice = Utilities.TotalIncomePerRepeatedProduct(repeatedItemsInReport, i);
+                orders = Utilities.TotalOrdersPerRepeatedProduct(repeatedItemsInReport, i);
+
+                double total = itemPrice * orders;
+
+                dtRow = salesCustomersTable.NewRow();
+                dtRow["product"] = repeatedItemsInReport[i];
+                dtRow["price"] = itemPrice;
+                dtRow["orders"] = orders;
+                dtRow["total"] = total;
+                salesCustomersTable.Rows.Add(dtRow);
+            }
+        }
     }
         
 }

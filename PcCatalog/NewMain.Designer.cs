@@ -50,7 +50,7 @@ namespace PcCatalog
             this.costLabel = new System.Windows.Forms.Label();
             this.toCartButton = new System.Windows.Forms.Button();
             this.ProductLabel = new System.Windows.Forms.Label();
-            this.AdminProductsPanel = new System.Windows.Forms.Panel();
+            this.ProductsPanel = new System.Windows.Forms.Panel();
             this.ItemComboBox = new System.Windows.Forms.ComboBox();
             this.AdminDataBaseEditorPanel = new System.Windows.Forms.Panel();
             this.SaveCancelPanel = new System.Windows.Forms.Panel();
@@ -69,7 +69,7 @@ namespace PcCatalog
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.productSalesDataGrid)).BeginInit();
             this.shopCostPanel.SuspendLayout();
-            this.AdminProductsPanel.SuspendLayout();
+            this.ProductsPanel.SuspendLayout();
             this.AdminDataBaseEditorPanel.SuspendLayout();
             this.SaveCancelPanel.SuspendLayout();
             this.SuspendLayout();
@@ -172,13 +172,14 @@ namespace PcCatalog
             // salesToolStripMenuItem
             // 
             this.salesToolStripMenuItem.Name = "salesToolStripMenuItem";
-            this.salesToolStripMenuItem.Size = new System.Drawing.Size(127, 26);
+            this.salesToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
             this.salesToolStripMenuItem.Text = "Sales";
+            this.salesToolStripMenuItem.Click += new System.EventHandler(this.salesToolStripMenuItem_Click);
             // 
             // clientsToolStripMenuItem
             // 
             this.clientsToolStripMenuItem.Name = "clientsToolStripMenuItem";
-            this.clientsToolStripMenuItem.Size = new System.Drawing.Size(127, 26);
+            this.clientsToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
             this.clientsToolStripMenuItem.Text = "Clients";
             this.clientsToolStripMenuItem.Visible = false;
             // 
@@ -266,15 +267,15 @@ namespace PcCatalog
             this.ProductLabel.TabIndex = 7;
             this.ProductLabel.Text = "Products";
             // 
-            // AdminProductsPanel
+            // ProductsPanel
             // 
-            this.AdminProductsPanel.Controls.Add(this.ItemComboBox);
-            this.AdminProductsPanel.Controls.Add(this.ProductLabel);
-            this.AdminProductsPanel.Location = new System.Drawing.Point(12, 106);
-            this.AdminProductsPanel.Name = "AdminProductsPanel";
-            this.AdminProductsPanel.Size = new System.Drawing.Size(200, 120);
-            this.AdminProductsPanel.TabIndex = 9;
-            this.AdminProductsPanel.Visible = false;
+            this.ProductsPanel.Controls.Add(this.ItemComboBox);
+            this.ProductsPanel.Controls.Add(this.ProductLabel);
+            this.ProductsPanel.Location = new System.Drawing.Point(12, 106);
+            this.ProductsPanel.Name = "ProductsPanel";
+            this.ProductsPanel.Size = new System.Drawing.Size(200, 120);
+            this.ProductsPanel.TabIndex = 9;
+            this.ProductsPanel.Visible = false;
             // 
             // ItemComboBox
             // 
@@ -432,7 +433,7 @@ namespace PcCatalog
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.AdminDataBaseEditorPanel);
-            this.Controls.Add(this.AdminProductsPanel);
+            this.Controls.Add(this.ProductsPanel);
             this.Controls.Add(this.toCartButton);
             this.Controls.Add(this.shopCostPanel);
             this.Controls.Add(this.exitButton);
@@ -447,8 +448,8 @@ namespace PcCatalog
             ((System.ComponentModel.ISupportInitialize)(this.productSalesDataGrid)).EndInit();
             this.shopCostPanel.ResumeLayout(false);
             this.shopCostPanel.PerformLayout();
-            this.AdminProductsPanel.ResumeLayout(false);
-            this.AdminProductsPanel.PerformLayout();
+            this.ProductsPanel.ResumeLayout(false);
+            this.ProductsPanel.PerformLayout();
             this.AdminDataBaseEditorPanel.ResumeLayout(false);
             this.AdminDataBaseEditorPanel.PerformLayout();
             this.SaveCancelPanel.ResumeLayout(false);
@@ -480,7 +481,7 @@ namespace PcCatalog
         private System.Windows.Forms.Label costLabel;
         private System.Windows.Forms.Button toCartButton;
         private System.Windows.Forms.Label ProductLabel;
-        private System.Windows.Forms.Panel AdminProductsPanel;
+        private System.Windows.Forms.Panel ProductsPanel;
         private System.Windows.Forms.Panel AdminDataBaseEditorPanel;
         private System.Windows.Forms.TextBox StatusBox;
         private System.Windows.Forms.TextBox PriceBox;
