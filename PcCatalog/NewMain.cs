@@ -481,11 +481,21 @@ namespace PcCatalog
 
         private void reportMenu_Click(object sender, EventArgs e)
         {
-            mode = "report";
+           
         }
 
         private void clientsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if(salesCustomersTable !=null)
+            {
+                salesCustomersTable = null;
+            }
+
+            if(ProductsPanel.Visible == true)
+            {
+                ProductsPanel.Visible = false;
+            }
+
             if (salesCustomersTable == null)
             {
                 salesCustomersTable = new("Customer Report");
@@ -512,12 +522,15 @@ namespace PcCatalog
                 dtColumn.ReadOnly = false;
                 dtColumn.Unique = false;
                 salesCustomersTable.Columns.Add(dtColumn);
-            }
-            if(productSalesDataGrid.Visible == false)
-            {
+
                 productSalesDataGrid.Visible = true;
                 salesCustomersTable.Merge(Utilities.CustomerPurchasesReport(salesCustomersTable));
             }
+            /*
+            if(productSalesDataGrid.Visible == false)
+            {
+                
+            }*/
             productSalesDataGrid.DataSource = salesCustomersTable;
         }
     }
