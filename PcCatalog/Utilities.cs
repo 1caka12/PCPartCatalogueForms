@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Data;
 using System.Windows.Forms;
-
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 
 namespace PcCatalog
 {
-    static class Utilities
+    class Utilities
     {
         public static double price;
-        
-        public static DataTable ClientProductsDataTable(string product)
+        private static DataRow dtRow;
+
+        public static DataTable ProductsDataTable(string product)
         {
             string connectionString = "server=localhost;user=root;database=sys;port=3306;password=root";
             MySqlConnection connection = new MySqlConnection(connectionString);
@@ -109,39 +109,26 @@ namespace PcCatalog
             }
         }
         
-        public static bool ClientChecker(string firstName, string lastName, string phoneNum, int customerIdCount)
+        public static bool CustomerChecker(string currentFirstName, string currentLastName, string currentPhoneNum, int customerIdCount)
         {
-            string currentFirstName, currentLastName, currentPhoneNum;
+            string firstName, lastName, phoneNum;
             if (customerIdCount == 0)
             { return false; }
 
             MySqlConnection connection = ConnectionOpen();
             MySqlCommand command = new();
 
-            string firstNameString = $"SELECT first_name FROM sys.customers WHERE customer_id = {customerIdCount}";
-            command = new(firstNameString, connection);
-            currentFirstName = command.ExecuteScalar().ToString();
-            connection.Close();
-
-            connection.Open();
-            string lastNameString = $"SELECT last_name FROM sys.customers WHERE customer_id = {customerIdCount}";
-            command = new(lastNameString, connection);
-            currentLastName = command.ExecuteScalar().ToString();
-            connection.Close();
-
-            connection.Open();
-            string phoneString = $"SELECT phone FROM sys.customers WHERE customer_id = {customerIdCount}";
-            command = new(phoneString, connection);
-            currentPhoneNum = command.ExecuteScalar().ToString();
-            connection.Close();
-
+            firstName = GetCustomerFirstName(customerIdCount);
+            lastName = GetCustomerLastName(customerIdCount);
+            phoneNum = GetCustomerPhone(customerIdCount);
+            
             if (currentFirstName == firstName && currentLastName == lastName && currentPhoneNum == phoneNum)
             { return true; }
             else
-            { return ClientChecker(firstName, lastName, phoneNum, customerIdCount - 1); }
+            { return CustomerChecker(currentFirstName, currentLastName, currentPhoneNum, customerIdCount - 1); }
         }
 
-        public static void AddNewClient(string firstName,string lastName,string phoneNum)
+        public static void AddNewCustomer(string firstName,string lastName,string phoneNum)
         {
             MySqlConnection connection = ConnectionOpen();
             MySqlCommand command = new();        
@@ -167,7 +154,40 @@ namespace PcCatalog
             MySqlDataReader reader = command.ExecuteReader();
             connection.Close();
         }
-  
+
+        public static string GetCustomerFirstName(int customerId)
+        {
+            MySqlConnection connection = ConnectionOpen();
+
+
+            string firstNameQuery = $"SELECT first_name FROM sys.customers WHERE customer_id = {customerId}";
+            MySqlCommand command = new(firstNameQuery, connection);
+            string firstName = command.ExecuteScalar().ToString();
+            connection.Close();
+            return firstName;
+        }
+
+        public static string GetCustomerLastName(int customerId)
+        {
+            MySqlConnection connection = ConnectionOpen();
+
+            string lastNameQuery = $"SELECT last_name FROM sys.customers WHERE customer_id = {customerId}";
+            MySqlCommand command = new(lastNameQuery, connection);
+            string lastName = command.ExecuteScalar().ToString();
+            connection.Close();
+            return lastName;
+        }
+        public static string GetCustomerPhone(int customerId)
+        {
+            MySqlConnection connection = ConnectionOpen();
+
+            string phoneQuery = $"SELECT phone FROM sys.customers WHERE customer_id = {customerId}";
+            MySqlCommand command = new(phoneQuery, connection);
+            string phoneNum = command.ExecuteScalar().ToString();
+            connection.Close();
+
+            return phoneNum;
+        }
         public static int GetCustomerCount()
         {
             MySqlConnection connection = ConnectionOpen();
@@ -278,8 +298,7 @@ namespace PcCatalog
             MySqlDataReader reader = command.ExecuteReader();
             connection.Close();
 
-            //whipe text\\
-           // WhipeText();
+           
 
             MessageBox.Show("New product saved!");
         }
@@ -367,22 +386,40 @@ namespace PcCatalog
 
             return repeatedItemsList;
         }
-
-        public static double TotalIncomePerRepeatedProduct(List<string> repeatedItemList,int productIndex)
+        public static List<string> IndividualProductsInReport()
         {
-            MySqlConnection connection = new();          
+            MySqlConnection connection = ConnectionOpen();
+
+            string individualItemsInQuery = $"SELECT product FROM sys.report GROUP BY product HAVING COUNT(product)=1"; 
+            MySqlCommand command = new(individualItemsInQuery, connection);
+            MySqlDataReader reader = command.ExecuteReader();
+
+            List<string> individualItemsList = new();
+
+            while (reader.Read())
+            {
+                individualItemsList.Add(reader[0].ToString());
+            }
+            connection.Close();
+            return individualItemsList;
+        }
+
+        private static double TotalIncomePerProduct(List<string> repeatedItemList,int productIndex)
+        {
+            MySqlConnection connection = ConnectionOpen();
+            double productPrice = .0;
 
             string itemPriceQuery= $"SELECT price FROM sys.report WHERE product ='{repeatedItemList[productIndex]}'"; // gets the price of the duplicate item
             MySqlCommand command = new(itemPriceQuery, connection);
-            double itemPrice = double.Parse(command.ExecuteScalar().ToString());
+            productPrice = double.Parse(command.ExecuteScalar().ToString());
             connection.Close();
 
-            return itemPrice;
+            return productPrice;
         }
 
-        public static int TotalOrdersPerRepeatedProduct(List<string> repeatedItemList, int productIndex)
+        private static int TotalOrdersPerProduct(List<string> repeatedItemList, int productIndex)
         {
-            MySqlConnection connection = new();
+            MySqlConnection connection = ConnectionOpen();
 
             string ordersQuery = $"SELECT COUNT(*) FROM sys.report WHERE product = '{repeatedItemList[productIndex]}'";
             MySqlCommand command = new(ordersQuery,connection);
@@ -392,8 +429,63 @@ namespace PcCatalog
             return orders;
         }
 
-        
-        
-        
+        public static DataTable ProductsReport(List<string> productsList,DataTable productsReportTable)
+        {                       
+            for (int i = 0; i< productsList.Count; i++)
+            {
+                double productPrice = Utilities.TotalIncomePerProduct(productsList, i);
+                int orders = Utilities.TotalOrdersPerProduct(productsList, i);
+
+                double total = productPrice * orders;
+
+                dtRow = productsReportTable.NewRow();
+                dtRow["product"] = productsList[i];
+                dtRow["price"] = productPrice;
+                dtRow["orders"] = orders;
+                dtRow["total"] = total;
+                productsReportTable.Rows.Add(dtRow);
+            }
+            return productsReportTable;
+        }
+
+        public static DataTable CustomerPurchasesReport(DataTable customersReportTable)
+        {
+            int count = GetCustomerCount();
+            string firstName, lastName, customer;
+            
+            for(int i = 1; i <= count; i++)
+            {
+                firstName = GetCustomerFirstName(i);
+                lastName = GetCustomerLastName(i);
+                customer = firstName + " " + lastName;
+                double total = TotalSumPerCustomer(i);
+                int orderCount = TotalOrdersPerCustomer(i);
+
+                dtRow = customersReportTable.NewRow();
+                dtRow["customer"] = customer;
+                dtRow["orders"] = orderCount;
+                dtRow["total"] = total;
+                customersReportTable.Rows.Add(dtRow);
+            }
+            return customersReportTable;
+            
+        }
+        public static double TotalSumPerCustomer(int customerId)
+        {
+            MySqlConnection connection = ConnectionOpen();
+            string purchasesQuery = $"SELECT SUM(price) FROM sys.report WHERE customer_id = {customerId}";
+            MySqlCommand command = new(purchasesQuery, connection);
+            double total = double.Parse(command.ExecuteScalar().ToString());
+            return total;
+        }
+        public static int TotalOrdersPerCustomer(int customerId)
+        {
+            MySqlConnection connection = ConnectionOpen();
+            string ordersQuery = $"SELECT COUNT(*) FROM sys.report WHERE customer_id = {customerId}";
+            MySqlCommand command = new(ordersQuery, connection);
+            int orders = int.Parse(command.ExecuteScalar().ToString());
+            return orders;
+        }
     }
+
 }

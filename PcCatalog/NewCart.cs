@@ -105,9 +105,9 @@ namespace PcCatalog
 
             int customerIdCount = Utilities.GetCustomerCount();
 
-            if (Utilities.ClientChecker(firstName,lastName,phoneNum,customerIdCount) == false)
+            if (Utilities.CustomerChecker(firstName,lastName,phoneNum,customerIdCount) == false)
             {
-                Utilities.AddNewClient(firstName,lastName,phoneNum);
+                Utilities.AddNewCustomer(firstName,lastName,phoneNum);
             }
 
             int userID = Utilities.GetCustomerId(firstName, lastName, phoneNum);

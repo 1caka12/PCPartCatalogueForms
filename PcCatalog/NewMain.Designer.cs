@@ -51,7 +51,7 @@ namespace PcCatalog
             this.toCartButton = new System.Windows.Forms.Button();
             this.ProductLabel = new System.Windows.Forms.Label();
             this.ProductsPanel = new System.Windows.Forms.Panel();
-            this.ItemComboBox = new System.Windows.Forms.ComboBox();
+            this.ProductComboBox = new System.Windows.Forms.ComboBox();
             this.AdminDataBaseEditorPanel = new System.Windows.Forms.Panel();
             this.SaveCancelPanel = new System.Windows.Forms.Panel();
             this.SaveButton = new System.Windows.Forms.Button();
@@ -168,6 +168,7 @@ namespace PcCatalog
             this.reportMenu.Name = "reportMenu";
             this.reportMenu.Size = new System.Drawing.Size(69, 25);
             this.reportMenu.Text = "Report";
+            this.reportMenu.Click += new System.EventHandler(this.reportMenu_Click);
             // 
             // salesToolStripMenuItem
             // 
@@ -181,7 +182,7 @@ namespace PcCatalog
             this.clientsToolStripMenuItem.Name = "clientsToolStripMenuItem";
             this.clientsToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
             this.clientsToolStripMenuItem.Text = "Clients";
-            this.clientsToolStripMenuItem.Visible = false;
+            this.clientsToolStripMenuItem.Click += new System.EventHandler(this.clientsToolStripMenuItem_Click);
             // 
             // productSalesDataGrid
             // 
@@ -191,7 +192,7 @@ namespace PcCatalog
             this.productSalesDataGrid.Location = new System.Drawing.Point(218, 88);
             this.productSalesDataGrid.Name = "productSalesDataGrid";
             this.productSalesDataGrid.RowTemplate.Height = 25;
-            this.productSalesDataGrid.Size = new System.Drawing.Size(335, 234);
+            this.productSalesDataGrid.Size = new System.Drawing.Size(421, 234);
             this.productSalesDataGrid.TabIndex = 2;
             this.productSalesDataGrid.Visible = false;
             this.productSalesDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.productSalesDataGrid_CellClick);
@@ -269,7 +270,7 @@ namespace PcCatalog
             // 
             // ProductsPanel
             // 
-            this.ProductsPanel.Controls.Add(this.ItemComboBox);
+            this.ProductsPanel.Controls.Add(this.ProductComboBox);
             this.ProductsPanel.Controls.Add(this.ProductLabel);
             this.ProductsPanel.Location = new System.Drawing.Point(12, 106);
             this.ProductsPanel.Name = "ProductsPanel";
@@ -277,16 +278,16 @@ namespace PcCatalog
             this.ProductsPanel.TabIndex = 9;
             this.ProductsPanel.Visible = false;
             // 
-            // ItemComboBox
+            // ProductComboBox
             // 
-            this.ItemComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ItemComboBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ItemComboBox.FormattingEnabled = true;
-            this.ItemComboBox.Location = new System.Drawing.Point(10, 51);
-            this.ItemComboBox.Name = "ItemComboBox";
-            this.ItemComboBox.Size = new System.Drawing.Size(150, 25);
-            this.ItemComboBox.TabIndex = 32;
-            this.ItemComboBox.SelectedIndexChanged += new System.EventHandler(this.ItemComboBox_SelectedIndexChanged);
+            this.ProductComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ProductComboBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ProductComboBox.FormattingEnabled = true;
+            this.ProductComboBox.Location = new System.Drawing.Point(10, 51);
+            this.ProductComboBox.Name = "ProductComboBox";
+            this.ProductComboBox.Size = new System.Drawing.Size(150, 25);
+            this.ProductComboBox.TabIndex = 32;
+            this.ProductComboBox.SelectedIndexChanged += new System.EventHandler(this.ItemComboBox_SelectedIndexChanged);
             // 
             // AdminDataBaseEditorPanel
             // 
@@ -493,7 +494,7 @@ namespace PcCatalog
         private System.Windows.Forms.Button CorrectionButton;
         private System.Windows.Forms.Button NewProductButton;
         private System.Windows.Forms.Button ReturnButton;
-        private System.Windows.Forms.ComboBox ItemComboBox;
+        private System.Windows.Forms.ComboBox ProductComboBox;
         private System.Windows.Forms.Button SaveButton;
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Panel SaveCancelPanel;

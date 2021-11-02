@@ -29,8 +29,17 @@ namespace PcCatalog
         }
 
         private void NewMain_Load(object sender, EventArgs e)
-        { 
-           
+        {
+            if (ProductComboBox.Items.Count == 0)
+            {
+                ProductComboBox.Items.Add("Processors(CPU)");
+                ProductComboBox.Items.Add("Graphics Cards(GPU)");
+                ProductComboBox.Items.Add("Hard Drives(HDD)");
+                ProductComboBox.Items.Add("Motherboards(MOBO)");
+                ProductComboBox.Items.Add("Power Supplies(PSU)");
+                ProductComboBox.Items.Add("Ram");
+                ProductComboBox.Items.Add("Solid State Drives(SSD)");
+            }
         }
         
 
@@ -43,7 +52,7 @@ namespace PcCatalog
             if(shopCostPanel.Visible==false)
                OpenMenu("shop");
                  
-            productSalesDataGrid.DataSource = Utilities.ClientProductsDataTable("cpu");
+            productSalesDataGrid.DataSource = Utilities.ProductsDataTable("cpu");
             Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);        
         }
 
@@ -53,7 +62,7 @@ namespace PcCatalog
             if (shopCostPanel.Visible == false)
                 OpenMenu("shop");
 
-            productSalesDataGrid.DataSource = Utilities.ClientProductsDataTable("gpu");
+            productSalesDataGrid.DataSource = Utilities.ProductsDataTable("gpu");
             Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
 
         }
@@ -64,7 +73,7 @@ namespace PcCatalog
             if (shopCostPanel.Visible == false)
                 OpenMenu("shop");
 
-            productSalesDataGrid.DataSource = Utilities.ClientProductsDataTable("hdd");
+            productSalesDataGrid.DataSource = Utilities.ProductsDataTable("hdd");
             Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
         }
 
@@ -74,7 +83,7 @@ namespace PcCatalog
             if (shopCostPanel.Visible == false)
                 OpenMenu("shop");
 
-           productSalesDataGrid.DataSource = Utilities.ClientProductsDataTable("mobo");
+           productSalesDataGrid.DataSource = Utilities.ProductsDataTable("mobo");
             Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
         }
 
@@ -84,7 +93,7 @@ namespace PcCatalog
             if (shopCostPanel.Visible == false)
                 OpenMenu("shop");
 
-           productSalesDataGrid.DataSource = Utilities.ClientProductsDataTable("psu");
+           productSalesDataGrid.DataSource = Utilities.ProductsDataTable("psu");
             Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
         }
 
@@ -94,7 +103,7 @@ namespace PcCatalog
             if (shopCostPanel.Visible == false)
                 OpenMenu("shop");
 
-            productSalesDataGrid.DataSource = Utilities.ClientProductsDataTable("ram");
+            productSalesDataGrid.DataSource = Utilities.ProductsDataTable("ram");
             Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
         }
 
@@ -104,7 +113,7 @@ namespace PcCatalog
             if (shopCostPanel.Visible == false)
                 OpenMenu("shop");
 
-           productSalesDataGrid.DataSource = Utilities.ClientProductsDataTable("ssd");
+           productSalesDataGrid.DataSource = Utilities.ProductsDataTable("ssd");
             Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
         }
         //Buttons for products on the client side
@@ -177,9 +186,7 @@ namespace PcCatalog
 
                     productSalesDataGrid.Rows.Remove(row);
                 }
-            }
-
-            
+            }          
         }
     
         private void productStrip_Click(object sender, EventArgs e)
@@ -218,18 +225,7 @@ namespace PcCatalog
             AdminDataBaseEditorPanel.Show();
             productSalesDataGrid.Visible = true;
             mode = "admin";
-
-            if(ItemComboBox.Items.Count == 0)
-            {
-                ItemComboBox.Items.Add("Processors(CPU)");
-                ItemComboBox.Items.Add("Graphics Cards(GPU)");
-                ItemComboBox.Items.Add("Hard Drives(HDD)");
-                ItemComboBox.Items.Add("Motherboards(MOBO)");
-                ItemComboBox.Items.Add("Power Supplies(PSU)");
-                ItemComboBox.Items.Add("Ram");
-                ItemComboBox.Items.Add("Solid State Drives(SSD)");
-            }
-
+         
             if(buttonColumn!=null)
             {
                 productSalesDataGrid.Columns.Remove(buttonColumn);
@@ -355,36 +351,41 @@ namespace PcCatalog
 
         private void ItemComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (ItemComboBox.Text)
+            if (mode == "admin")
             {
-                case "Processors(CPU)":
-                    currentProductType = "cpu";
-                    productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("cpu");
-                    break;
-                case "Graphics Cards(GPU)":
-                    currentProductType = "gpu";
-                    productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("gpu");
-                    break;
-                case "Hard Drives(HDD)":
-                    currentProductType = "hdd";
-                    productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("hdd");
-                    break;
-                case "Motherboards(MOBO)":
-                    currentProductType = "mobo";
-                    productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("mobo");
-                    break;
-                case "Power Supplies(PSU)":
-                    currentProductType = "psu";
-                    productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("psu");
-                    break;
-                case "Ram":
-                    currentProductType = "ram";
-                    productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("ram");
-                    break;
-                case "Solid State Drives(SSD)":
-                    currentProductType = "ssd";
-                    productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("ssd");
-                    break;
+
+
+                switch (ProductComboBox.Text)
+                {
+                    case "Processors(CPU)":
+                        currentProductType = "cpu";
+                        productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("cpu");
+                        break;
+                    case "Graphics Cards(GPU)":
+                        currentProductType = "gpu";
+                        productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("gpu");
+                        break;
+                    case "Hard Drives(HDD)":
+                        currentProductType = "hdd";
+                        productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("hdd");
+                        break;
+                    case "Motherboards(MOBO)":
+                        currentProductType = "mobo";
+                        productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("mobo");
+                        break;
+                    case "Power Supplies(PSU)":
+                        currentProductType = "psu";
+                        productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("psu");
+                        break;
+                    case "Ram":
+                        currentProductType = "ram";
+                        productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("ram");
+                        break;
+                    case "Solid State Drives(SSD)":
+                        currentProductType = "ssd";
+                        productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("ssd");
+                        break;
+                }
             }
         }
 
@@ -412,12 +413,18 @@ namespace PcCatalog
 
         private void salesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if(salesCustomersTable !=null)
+            {
+                salesCustomersTable = null;
+            }
+
             if (AdminDataBaseEditorPanel.Visible == true || shopCostPanel.Visible == true)
             {
                 AdminDataBaseEditorPanel.Visible = false;
                 shopCostPanel.Visible = false;
             }
-            ProductsPanel.Visible = true;
+            
+            productSalesDataGrid.Visible = true;
 
             if(salesCustomersTable == null)
             {
@@ -459,23 +466,59 @@ namespace PcCatalog
                 salesCustomersTable.Columns.Add(dtColumn);
             }
 
-            List<string> repeatedItemsInReport = Utilities.RepeatedItemsInReport();
-            double itemPrice = 0;
-            int orders = 0;
-            for(int i = 0; i < repeatedItemsInReport.Count; i++)
+            if (ProductsPanel.Visible == false)
             {
-                itemPrice = Utilities.TotalIncomePerRepeatedProduct(repeatedItemsInReport, i);
-                orders = Utilities.TotalOrdersPerRepeatedProduct(repeatedItemsInReport, i);
+                ProductsPanel.Visible = true;
+                ProductComboBox.Items.Add("All");
+                List<string> repeatedItemsInReport = Utilities.RepeatedItemsInReport();
+                List<string> individualItemsInReport = Utilities.IndividualProductsInReport();
 
-                double total = itemPrice * orders;
-
-                dtRow = salesCustomersTable.NewRow();
-                dtRow["product"] = repeatedItemsInReport[i];
-                dtRow["price"] = itemPrice;
-                dtRow["orders"] = orders;
-                dtRow["total"] = total;
-                salesCustomersTable.Rows.Add(dtRow);
+                salesCustomersTable.Merge(Utilities.ProductsReport(repeatedItemsInReport, salesCustomersTable));
+                salesCustomersTable.Merge(Utilities.ProductsReport(individualItemsInReport, salesCustomersTable));
             }
+            productSalesDataGrid.DataSource = salesCustomersTable; 
+        }
+
+        private void reportMenu_Click(object sender, EventArgs e)
+        {
+            mode = "report";
+        }
+
+        private void clientsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (salesCustomersTable == null)
+            {
+                salesCustomersTable = new("Customer Report");
+                dtColumn = new();
+                dtColumn.DataType = typeof(string);
+                dtColumn.ColumnName = "customer";
+                dtColumn.Caption = "Customer";
+                dtColumn.ReadOnly = false;
+                dtColumn.Unique = false;
+                salesCustomersTable.Columns.Add(dtColumn);
+
+                dtColumn = new();
+                dtColumn.DataType = typeof(int);
+                dtColumn.ColumnName = "orders";
+                dtColumn.Caption = "Orders";
+                dtColumn.ReadOnly = false;
+                dtColumn.Unique = false;
+                salesCustomersTable.Columns.Add(dtColumn);
+
+                dtColumn = new();
+                dtColumn.DataType = typeof(double);
+                dtColumn.ColumnName = "total";
+                dtColumn.Caption = "Total";
+                dtColumn.ReadOnly = false;
+                dtColumn.Unique = false;
+                salesCustomersTable.Columns.Add(dtColumn);
+            }
+            if(productSalesDataGrid.Visible == false)
+            {
+                productSalesDataGrid.Visible = true;
+                salesCustomersTable.Merge(Utilities.CustomerPurchasesReport(salesCustomersTable));
+            }
+            productSalesDataGrid.DataSource = salesCustomersTable;
         }
     }
         
