@@ -41,7 +41,7 @@ namespace PcCatalog
             this.adminMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.reportMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.salesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CustomersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.productSalesDataGrid = new System.Windows.Forms.DataGridView();
             this.exitButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -163,12 +163,11 @@ namespace PcCatalog
             // 
             this.reportMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.salesToolStripMenuItem,
-            this.clientsToolStripMenuItem});
+            this.CustomersToolStripMenuItem});
             this.reportMenu.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.reportMenu.Name = "reportMenu";
             this.reportMenu.Size = new System.Drawing.Size(69, 25);
             this.reportMenu.Text = "Report";
-            this.reportMenu.Click += new System.EventHandler(this.reportMenu_Click);
             // 
             // salesToolStripMenuItem
             // 
@@ -177,12 +176,12 @@ namespace PcCatalog
             this.salesToolStripMenuItem.Text = "Sales";
             this.salesToolStripMenuItem.Click += new System.EventHandler(this.salesToolStripMenuItem_Click);
             // 
-            // clientsToolStripMenuItem
+            // CustomersToolStripMenuItem
             // 
-            this.clientsToolStripMenuItem.Name = "clientsToolStripMenuItem";
-            this.clientsToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
-            this.clientsToolStripMenuItem.Text = "Clients";
-            this.clientsToolStripMenuItem.Click += new System.EventHandler(this.clientsToolStripMenuItem_Click);
+            this.CustomersToolStripMenuItem.Name = "CustomersToolStripMenuItem";
+            this.CustomersToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
+            this.CustomersToolStripMenuItem.Text = "Customers";
+            this.CustomersToolStripMenuItem.Click += new System.EventHandler(this.clientsToolStripMenuItem_Click);
             // 
             // productSalesDataGrid
             // 
@@ -272,9 +271,9 @@ namespace PcCatalog
             // 
             this.ProductsPanel.Controls.Add(this.ProductComboBox);
             this.ProductsPanel.Controls.Add(this.ProductLabel);
-            this.ProductsPanel.Location = new System.Drawing.Point(12, 106);
+            this.ProductsPanel.Location = new System.Drawing.Point(12, 113);
             this.ProductsPanel.Name = "ProductsPanel";
-            this.ProductsPanel.Size = new System.Drawing.Size(200, 120);
+            this.ProductsPanel.Size = new System.Drawing.Size(178, 110);
             this.ProductsPanel.TabIndex = 9;
             this.ProductsPanel.Visible = false;
             // 
@@ -302,9 +301,9 @@ namespace PcCatalog
             this.AdminDataBaseEditorPanel.Controls.Add(this.RemoveProductButton);
             this.AdminDataBaseEditorPanel.Controls.Add(this.CorrectionButton);
             this.AdminDataBaseEditorPanel.Controls.Add(this.NewProductButton);
-            this.AdminDataBaseEditorPanel.Location = new System.Drawing.Point(0, 328);
+            this.AdminDataBaseEditorPanel.Location = new System.Drawing.Point(350, 363);
             this.AdminDataBaseEditorPanel.Name = "AdminDataBaseEditorPanel";
-            this.AdminDataBaseEditorPanel.Size = new System.Drawing.Size(800, 117);
+            this.AdminDataBaseEditorPanel.Size = new System.Drawing.Size(450, 85);
             this.AdminDataBaseEditorPanel.TabIndex = 10;
             this.AdminDataBaseEditorPanel.Visible = false;
             // 
@@ -473,7 +472,7 @@ namespace PcCatalog
         private System.Windows.Forms.ToolStripMenuItem adminMenu;
         private System.Windows.Forms.ToolStripMenuItem reportMenu;
         private System.Windows.Forms.ToolStripMenuItem salesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem clientsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem CustomersToolStripMenuItem;
         private System.Windows.Forms.DataGridView productSalesDataGrid;
         private System.Windows.Forms.Button exitButton;
         private System.Windows.Forms.Label label1;

@@ -40,6 +40,7 @@ namespace PcCatalog
                 ProductComboBox.Items.Add("Ram");
                 ProductComboBox.Items.Add("Solid State Drives(SSD)");
             }
+            salesCustomersTable = new();
         }
         
 
@@ -50,7 +51,7 @@ namespace PcCatalog
         {
             currentProductType = "cpu";
             if(shopCostPanel.Visible==false)
-               OpenMenu("shop");
+               MenuAction("shop",true);
                  
             productSalesDataGrid.DataSource = Utilities.ProductsDataTable("cpu");
             Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);        
@@ -60,7 +61,7 @@ namespace PcCatalog
         {
             currentProductType = "gpu";
             if (shopCostPanel.Visible == false)
-                OpenMenu("shop");
+                MenuAction("shop",true);
 
             productSalesDataGrid.DataSource = Utilities.ProductsDataTable("gpu");
             Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
@@ -71,7 +72,7 @@ namespace PcCatalog
         {
             currentProductType = "hdd";
             if (shopCostPanel.Visible == false)
-                OpenMenu("shop");
+                MenuAction("shop",true);
 
             productSalesDataGrid.DataSource = Utilities.ProductsDataTable("hdd");
             Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
@@ -81,7 +82,7 @@ namespace PcCatalog
         {
             currentProductType = "mobo";
             if (shopCostPanel.Visible == false)
-                OpenMenu("shop");
+                MenuAction("shop",true);
 
            productSalesDataGrid.DataSource = Utilities.ProductsDataTable("mobo");
             Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
@@ -91,7 +92,7 @@ namespace PcCatalog
         {
             currentProductType = "psu";
             if (shopCostPanel.Visible == false)
-                OpenMenu("shop");
+                MenuAction("shop",true);
 
            productSalesDataGrid.DataSource = Utilities.ProductsDataTable("psu");
             Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
@@ -101,7 +102,7 @@ namespace PcCatalog
         {
             currentProductType = "ram";
             if (shopCostPanel.Visible == false)
-                OpenMenu("shop");
+                MenuAction("shop",true);
 
             productSalesDataGrid.DataSource = Utilities.ProductsDataTable("ram");
             Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
@@ -111,7 +112,7 @@ namespace PcCatalog
         {
             currentProductType = "ssd";
             if (shopCostPanel.Visible == false)
-                OpenMenu("shop");
+                MenuAction("shop",true);
 
            productSalesDataGrid.DataSource = Utilities.ProductsDataTable("ssd");
             Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
@@ -124,47 +125,63 @@ namespace PcCatalog
         private void exitButton_Click(object sender, EventArgs e)
         {
             if(shopCostPanel.Visible == true)
-               ExitMenu("shop");
+              MenuAction("shop",false);
         }
-        private void OpenMenu(string menu)
+        
+        private void MenuAction(string menu,bool closeOrOpen)
         {
-           //exitButton.Visible = true;
-            productSalesDataGrid.Visible = true;
-            if (menu == "shop")
+            if(menu == "shop")
             {
-                shopCostPanel.Visible = true;
-                toCartButton.Visible = true;             
-            }    
-            else if(menu=="admin")
-            {
-                ProductsPanel.Visible = true;
-                AdminDataBaseEditorPanel.Visible = true;
+                shopCostPanel.Visible = closeOrOpen;
+                toCartButton.Visible = closeOrOpen;
+                exitButton.Visible = closeOrOpen;
+                productSalesDataGrid.Visible = closeOrOpen;
 
-                shopCostPanel.Visible = false;
-                toCartButton.Visible = false;
-            }
-        }
-        private void ExitMenu(string menu)
-        {
-            exitButton.Visible = false;
-            productSalesDataGrid.Visible = false;
-            if (menu == "shop")
-            {
-                shopCostPanel.Visible = false;
-                toCartButton.Visible = false;
-                exitButton.Visible = false;
-                productSalesDataGrid.DataSource = null;
-                if (selectedProductsId != null)
+                if (closeOrOpen == false)
                 {
+                    productSalesDataGrid.DataSource = null;
+                    productSalesDataGrid.Columns.Remove(buttonColumn);                
                     selectedProductsId.Clear();
                     selectedProductsName.Clear();
-                    selectedProductsPrice.Clear();
+                    selectedProductsPrice.Clear();     
                 }
-            }
-            else if (menu == "admin")
+            }          
+            else if(menu == "admin")
             {
-                ProductsPanel.Visible = false;
-                AdminDataBaseEditorPanel.Visible = false;
+                ProductsPanel.Visible = closeOrOpen;
+                AdminDataBaseEditorPanel.Visible = closeOrOpen;
+                productSalesDataGrid.Visible = closeOrOpen;                              
+                if (closeOrOpen == false)
+                {
+                    ModelBox.Text = "";
+                    PriceBox.Text = "";
+                    StatusBox.Text = "";
+                }
+            }         
+            else if(menu == "salesReport")
+            {
+                ProductsPanel.Visible = closeOrOpen;
+                productSalesDataGrid.Visible = closeOrOpen;
+
+                if (closeOrOpen == false)
+                {
+                    salesCustomersTable.Clear();
+                    productSalesDataGrid.DataSource = null;
+                }
+                if (closeOrOpen == true)
+                    salesCustomersTable = new("Sales Report");
+            }
+            else if(menu == "customersReport")
+            {
+                productSalesDataGrid.Visible = closeOrOpen;
+
+                if (closeOrOpen == false)
+                {
+                    salesCustomersTable.Clear();
+                    productSalesDataGrid.DataSource = null;
+                }
+                if (closeOrOpen == true)
+                    salesCustomersTable = new("Customers Report");
             }
         }
 
@@ -190,7 +207,16 @@ namespace PcCatalog
         }
     
         private void productStrip_Click(object sender, EventArgs e)
-        {                                            
+        {
+            if (AdminDataBaseEditorPanel.Visible == true)          
+                 MenuAction("admin", false);
+            if (salesCustomersTable.Columns.Contains("product"))
+                MenuAction("salesReport", false);
+            if (salesCustomersTable.Columns.Contains("customer"))
+                MenuAction("customersReport", false);
+
+            MenuAction("shop", true);
+
             if (productSalesDataGrid.Columns["buttonColumn"] == null)
             {
                 buttonColumn = new();
@@ -206,34 +232,9 @@ namespace PcCatalog
                 selectedProductsName = new();
                 selectedProductsPrice = new();
                 selectedProductsId = new();            
-            }
-
-            if(AdminDataBaseEditorPanel.Visible == true)
-            {
-                ExitMenu("admin");
-            }
-
-            mode = "user";
-            ModelBox.Text = "";
-            PriceBox.Text = "";
-            StatusBox.Text = "";
+            }       
         }
-
-        private void adminMenu_Click(object sender, EventArgs e)
-        {
-            ProductsPanel.Show();
-            AdminDataBaseEditorPanel.Show();
-            productSalesDataGrid.Visible = true;
-            mode = "admin";
-         
-            if(buttonColumn!=null)
-            {
-                productSalesDataGrid.Columns.Remove(buttonColumn);
-            }
-            ExitMenu("shop");
-            OpenMenu("admin");         
-        }
-
+     
         private void toCartButton_Click(object sender, EventArgs e)
         {
             newCart.Show();
@@ -258,6 +259,18 @@ namespace PcCatalog
         // Shop
 
         // Admin
+        private void adminMenu_Click(object sender, EventArgs e)
+        {
+            if (shopCostPanel.Visible == true)
+                MenuAction("shop", false);
+            if (salesCustomersTable.Columns.Contains("product"))
+                MenuAction("salesReport", false);
+            if (salesCustomersTable.Columns.Contains("customer"))
+                MenuAction("customersReport", false);
+
+            MenuAction("admin", true);
+            mode = "admin";          
+        }
         private void NewProductButton_Click(object sender, EventArgs e)
         {
             changeToDataBase = "addProduct";
@@ -353,8 +366,6 @@ namespace PcCatalog
         {
             if (mode == "admin")
             {
-
-
                 switch (ProductComboBox.Text)
                 {
                     case "Processors(CPU)":
@@ -411,26 +422,23 @@ namespace PcCatalog
         }
         //Admin
 
+        //Report
         private void salesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(salesCustomersTable !=null)
-            {
-                salesCustomersTable = null;
-            }
+            if (shopCostPanel.Visible == true)
+                MenuAction("shop", false);
 
-            if (AdminDataBaseEditorPanel.Visible == true || shopCostPanel.Visible == true)
-            {
-                AdminDataBaseEditorPanel.Visible = false;
-                shopCostPanel.Visible = false;
-            }
+            if (AdminDataBaseEditorPanel.Visible == true)
+                MenuAction("admin", false);
+
+            if (salesCustomersTable != null)
+                MenuAction("customersReport", false);
+                     
+            MenuAction("salesReport", true);
+            mode = "salesReport";
+
             
-            productSalesDataGrid.Visible = true;
-
-            if(salesCustomersTable == null)
-            {
-                salesCustomersTable = new("Sales Report");
-            }
-
+            
             if(!salesCustomersTable.Columns.Contains("product"))
             {              
                 dtColumn = new();
@@ -464,10 +472,7 @@ namespace PcCatalog
                 dtColumn.ReadOnly = false;
                 dtColumn.Unique = false;
                 salesCustomersTable.Columns.Add(dtColumn);
-            }
 
-            if (ProductsPanel.Visible == false)
-            {
                 ProductsPanel.Visible = true;
                 ProductComboBox.Items.Add("All");
                 List<string> repeatedItemsInReport = Utilities.RepeatedItemsInReport();
@@ -475,30 +480,26 @@ namespace PcCatalog
 
                 salesCustomersTable.Merge(Utilities.ProductsReport(repeatedItemsInReport, salesCustomersTable));
                 salesCustomersTable.Merge(Utilities.ProductsReport(individualItemsInReport, salesCustomersTable));
+                productSalesDataGrid.DataSource = salesCustomersTable;
             }
-            productSalesDataGrid.DataSource = salesCustomersTable; 
+            
         }
-
-        private void reportMenu_Click(object sender, EventArgs e)
-        {
-           
-        }
-
         private void clientsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(salesCustomersTable !=null)
-            {
-                salesCustomersTable = null;
-            }
+            if (shopCostPanel.Visible == true)
+                MenuAction("shop", false);
 
-            if(ProductsPanel.Visible == true)
-            {
-                ProductsPanel.Visible = false;
-            }
+            if (AdminDataBaseEditorPanel.Visible == true)
+                MenuAction("admin", false);
 
-            if (salesCustomersTable == null)
+            if (salesCustomersTable != null)
+                MenuAction("salesReport", false);
+
+            MenuAction("customersReport", true);
+           
+            if (!salesCustomersTable.Columns.Contains("customer"))
             {
-                salesCustomersTable = new("Customer Report");
+                
                 dtColumn = new();
                 dtColumn.DataType = typeof(string);
                 dtColumn.ColumnName = "customer";
@@ -525,14 +526,74 @@ namespace PcCatalog
 
                 productSalesDataGrid.Visible = true;
                 salesCustomersTable.Merge(Utilities.CustomerPurchasesReport(salesCustomersTable));
-            }
-            /*
-            if(productSalesDataGrid.Visible == false)
-            {
-                
-            }*/
-            productSalesDataGrid.DataSource = salesCustomersTable;
+                productSalesDataGrid.DataSource = salesCustomersTable;
+            }          
+           
         }
     }
         
 }
+
+/*
+ private void OpenMenu(string menu)
+        {
+           //exitButton.Visible = true;
+            productSalesDataGrid.Visible = true;
+            if (menu == "shop")
+            {
+                shopCostPanel.Visible = true;
+                toCartButton.Visible = true;             
+            }    
+            else if(menu=="admin")
+            {
+                ProductsPanel.Visible = true;
+                AdminDataBaseEditorPanel.Visible = true;
+
+                shopCostPanel.Visible = false;
+                toCartButton.Visible = false;
+            }
+            else if(menu=="salesReport")
+            {
+                ProductsPanel.Visible = true;
+                productSalesDataGrid.Visible = true;
+            }
+            else if(menu=="customersReport")
+            {
+
+            }
+        }
+        private void ExitMenu(string menu)
+        {
+            exitButton.Visible = false;
+            productSalesDataGrid.Visible = false;
+            if (menu == "shop")
+            {
+                shopCostPanel.Visible = false;
+                toCartButton.Visible = false;
+                exitButton.Visible = false;
+                productSalesDataGrid.DataSource = null;
+                if (selectedProductsId != null)
+                {
+                    selectedProductsId.Clear();
+                    selectedProductsName.Clear();
+                    selectedProductsPrice.Clear();
+                }
+            }
+            else if (menu == "admin")
+            {
+                ProductsPanel.Visible = false;
+                AdminDataBaseEditorPanel.Visible = false;
+                productSalesDataGrid.Visible = false;
+            }
+            else if(menu == "salesReport")
+            {
+                ProductsPanel.Visible = false;
+                productSalesDataGrid.Visible = false;
+            }
+            else if(menu =="customersReport")
+            {
+                productSalesDataGrid.Visible = false;
+            }
+
+        }
+ */

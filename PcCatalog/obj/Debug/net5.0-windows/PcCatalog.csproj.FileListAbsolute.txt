@@ -75,12 +75,13 @@ D:\PcCatalogProject\PcCatalog-current\PcCatalog\bin\Debug\net5.0-windows\K4os.Ha
 D:\PcCatalogProject\PcCatalog-current\PcCatalog\bin\Debug\net5.0-windows\MySql.Data.dll
 D:\PcCatalogProject\PcCatalog-current\PcCatalog\bin\Debug\net5.0-windows\Ubiety.Dns.Core.dll
 D:\PcCatalogProject\PcCatalog-current\PcCatalog\bin\Debug\net5.0-windows\Zstandard.Net.dll
-D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\PcCatalog.csproj.AssemblyReference.cache
 D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\PcCatalog.AdminScreen.resources
 D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\PcCatalog.BudgetAdd.resources
 D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\PcCatalog.Cart.resources
 D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\PcCatalog.EditPurchase.resources
 D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\PcCatalog.Main.resources
+D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\PcCatalog.NewCart.resources
+D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\PcCatalog.NewMain.resources
 D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\PcCatalog.Properties.Resources.resources
 D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\PcCatalog.Shop.resources
 D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\PcCatalog.csproj.GenerateResource.cache
@@ -93,5 +94,4 @@ D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\PcCatal
 D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\ref\PcCatalog.dll
 D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\PcCatalog.pdb
 D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\PcCatalog.genruntimeconfig.cache
-D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\PcCatalog.NewMain.resources
-D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\PcCatalog.NewCart.resources
+D:\PcCatalogProject\PcCatalog-current\PcCatalog\obj\Debug\net5.0-windows\PcCatalog.csproj.AssemblyReference.cache
