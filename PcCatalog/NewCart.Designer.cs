@@ -257,6 +257,7 @@ namespace PcCatalog
             this.Controls.Add(this.boughtProductsDataGrid);
             this.Name = "NewCart";
             this.Text = "NewCart";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.NewCart_FormClosed);
             this.Load += new System.EventHandler(this.NewCart_Load);
             ((System.ComponentModel.ISupportInitialize)(this.boughtProductsDataGrid)).EndInit();
             this.panel1.ResumeLayout(false);

@@ -212,9 +212,10 @@ namespace PcCatalog
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 17);
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label1.Location = new System.Drawing.Point(1, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(34, 15);
+            this.label1.Size = new System.Drawing.Size(56, 25);
             this.label1.TabIndex = 4;
             this.label1.Text = "Cost:";
             // 
@@ -232,18 +233,20 @@ namespace PcCatalog
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(208, 17);
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label2.Location = new System.Drawing.Point(207, 17);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(31, 15);
+            this.label2.Size = new System.Drawing.Size(53, 25);
             this.label2.TabIndex = 6;
             this.label2.Text = "BGN";
             // 
             // costLabel
             // 
             this.costLabel.AutoSize = true;
-            this.costLabel.Location = new System.Drawing.Point(43, 17);
+            this.costLabel.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.costLabel.Location = new System.Drawing.Point(63, 17);
             this.costLabel.Name = "costLabel";
-            this.costLabel.Size = new System.Drawing.Size(0, 15);
+            this.costLabel.Size = new System.Drawing.Size(0, 25);
             this.costLabel.TabIndex = 5;
             // 
             // toCartButton
@@ -261,9 +264,10 @@ namespace PcCatalog
             // ProductLabel
             // 
             this.ProductLabel.AutoSize = true;
-            this.ProductLabel.Location = new System.Drawing.Point(42, 16);
+            this.ProductLabel.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.ProductLabel.Location = new System.Drawing.Point(33, 20);
             this.ProductLabel.Name = "ProductLabel";
-            this.ProductLabel.Size = new System.Drawing.Size(54, 15);
+            this.ProductLabel.Size = new System.Drawing.Size(95, 28);
             this.ProductLabel.TabIndex = 7;
             this.ProductLabel.Text = "Products";
             // 
@@ -303,7 +307,7 @@ namespace PcCatalog
             this.AdminDataBaseEditorPanel.Controls.Add(this.NewProductButton);
             this.AdminDataBaseEditorPanel.Location = new System.Drawing.Point(0, 328);
             this.AdminDataBaseEditorPanel.Name = "AdminDataBaseEditorPanel";
-            this.AdminDataBaseEditorPanel.Size = new System.Drawing.Size(800, 121);
+            this.AdminDataBaseEditorPanel.Size = new System.Drawing.Size(800, 119);
             this.AdminDataBaseEditorPanel.TabIndex = 10;
             this.AdminDataBaseEditorPanel.Visible = false;
             // 
@@ -319,9 +323,10 @@ namespace PcCatalog
             // 
             // SaveButton
             // 
-            this.SaveButton.Location = new System.Drawing.Point(37, 3);
+            this.SaveButton.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.SaveButton.Location = new System.Drawing.Point(26, 3);
             this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(75, 23);
+            this.SaveButton.Size = new System.Drawing.Size(99, 25);
             this.SaveButton.TabIndex = 10;
             this.SaveButton.Text = "Save";
             this.SaveButton.UseVisualStyleBackColor = true;
@@ -329,9 +334,10 @@ namespace PcCatalog
             // 
             // CancelButton
             // 
-            this.CancelButton.Location = new System.Drawing.Point(37, 28);
+            this.CancelButton.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.CancelButton.Location = new System.Drawing.Point(26, 30);
             this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(75, 23);
+            this.CancelButton.Size = new System.Drawing.Size(99, 23);
             this.CancelButton.TabIndex = 11;
             this.CancelButton.Text = "Cancel";
             this.CancelButton.UseVisualStyleBackColor = true;
@@ -339,16 +345,17 @@ namespace PcCatalog
             // 
             // ReturnButton
             // 
-            this.ReturnButton.Location = new System.Drawing.Point(676, 74);
+            this.ReturnButton.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ReturnButton.Location = new System.Drawing.Point(669, 74);
             this.ReturnButton.Name = "ReturnButton";
-            this.ReturnButton.Size = new System.Drawing.Size(109, 23);
+            this.ReturnButton.Size = new System.Drawing.Size(116, 32);
             this.ReturnButton.TabIndex = 9;
             this.ReturnButton.Text = "Return To Main";
             this.ReturnButton.UseVisualStyleBackColor = true;
             // 
             // StatusBox
             // 
-            this.StatusBox.Location = new System.Drawing.Point(539, 17);
+            this.StatusBox.Location = new System.Drawing.Point(554, 17);
             this.StatusBox.Name = "StatusBox";
             this.StatusBox.ReadOnly = true;
             this.StatusBox.Size = new System.Drawing.Size(100, 23);
@@ -373,32 +380,36 @@ namespace PcCatalog
             // label5
             // 
             this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label5.Location = new System.Drawing.Point(457, 21);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(76, 15);
+            this.label5.Size = new System.Drawing.Size(91, 17);
             this.label5.TabIndex = 5;
             this.label5.Text = "Status(1 or 0)";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label4.Location = new System.Drawing.Point(307, 21);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(33, 15);
+            this.label4.Size = new System.Drawing.Size(38, 17);
             this.label4.TabIndex = 4;
             this.label4.Text = "Price";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label3.Location = new System.Drawing.Point(146, 21);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 15);
+            this.label3.Size = new System.Drawing.Size(47, 17);
             this.label3.TabIndex = 3;
             this.label3.Text = "Model";
             // 
             // RemoveProductButton
             // 
+            this.RemoveProductButton.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.RemoveProductButton.Location = new System.Drawing.Point(22, 74);
             this.RemoveProductButton.Name = "RemoveProductButton";
             this.RemoveProductButton.Size = new System.Drawing.Size(121, 23);
@@ -409,7 +420,8 @@ namespace PcCatalog
             // 
             // CorrectionButton
             // 
-            this.CorrectionButton.Location = new System.Drawing.Point(22, 46);
+            this.CorrectionButton.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.CorrectionButton.Location = new System.Drawing.Point(22, 45);
             this.CorrectionButton.Name = "CorrectionButton";
             this.CorrectionButton.Size = new System.Drawing.Size(121, 23);
             this.CorrectionButton.TabIndex = 1;
@@ -419,9 +431,10 @@ namespace PcCatalog
             // 
             // NewProductButton
             // 
-            this.NewProductButton.Location = new System.Drawing.Point(22, 17);
+            this.NewProductButton.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.NewProductButton.Location = new System.Drawing.Point(22, 18);
             this.NewProductButton.Name = "NewProductButton";
-            this.NewProductButton.Size = new System.Drawing.Size(118, 23);
+            this.NewProductButton.Size = new System.Drawing.Size(118, 24);
             this.NewProductButton.TabIndex = 0;
             this.NewProductButton.Text = "New";
             this.NewProductButton.UseVisualStyleBackColor = true;

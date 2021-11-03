@@ -12,7 +12,6 @@ namespace PcCatalog
         private static NewCart newCart = new();
         private static int displayQuantity = 0;
         private static double currentTotal = 0;
-        private static int productQuantity = 0;
         private static int totalProductQuantity = 0;
         
         public NewCart()
@@ -115,9 +114,9 @@ namespace PcCatalog
 
             int customerIdCount = Utilities.GetCustomerCount();
 
-            if (Utilities.CustomerChecker(firstName,lastName,phoneNum,customerIdCount) == false)
+            if (ShopUtilities.CustomerChecker(firstName,lastName,phoneNum,customerIdCount) == false)
             {
-                Utilities.AddNewCustomer(firstName,lastName,phoneNum);
+                ShopUtilities.AddNewCustomer(firstName,lastName,phoneNum);
             }
 
             int userID = Utilities.GetCustomerId(firstName, lastName, phoneNum);
@@ -133,7 +132,7 @@ namespace PcCatalog
                     string productName = boughtProductsDataGrid.Rows[k].Cells["productColumn"].Value.ToString();
                     double productPrice = double.Parse(boughtProductsDataGrid.Rows[k].Cells["priceColumn"].Value.ToString());
                     string productType = boughtProductsDataGrid.Rows[k].Cells["productType"].Value.ToString();
-                    Utilities.PurchaseReport(userID, productId, productName, time, productPrice,productType);
+                    ReportUtilities.PurchaseReport(userID, productId, productName, time, productPrice,productType);
                 }
             }
            
@@ -191,6 +190,10 @@ namespace PcCatalog
             set { newCart.boughtProductsDataGrid = value; }
         }
 
-       
+        private void NewCart_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            NewCart newCart = new();
+            newCart.Hide();
+        }
     }
 }

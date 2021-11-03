@@ -20,9 +20,8 @@ namespace PcCatalog
         private DataTable salesCustomersTable;
         //private DataRow dtRow;
         private DataColumn dtColumn;
-       
         
-        NewCart newCart = new();
+       
         public NewMain()
         {
             InitializeComponent();
@@ -41,6 +40,9 @@ namespace PcCatalog
                 ProductComboBox.Items.Add("Solid State Drives(SSD)");
             }
             salesCustomersTable = new();
+
+            
+
         }
         
 
@@ -53,8 +55,8 @@ namespace PcCatalog
             if(shopCostPanel.Visible==false)
                MenuAction("shop",true);
                  
-            productSalesDataGrid.DataSource = Utilities.ProductsDataTable("cpu");
-            Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);        
+            productSalesDataGrid.DataSource = ShopUtilities.ProductsDataTable("cpu");
+            ShopUtilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);        
         }
 
         private void graphicsCardsMenuItem_Click(object sender, EventArgs e)
@@ -63,8 +65,8 @@ namespace PcCatalog
             if (shopCostPanel.Visible == false)
                 MenuAction("shop",true);
 
-            productSalesDataGrid.DataSource = Utilities.ProductsDataTable("gpu");
-            Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
+            productSalesDataGrid.DataSource = ShopUtilities.ProductsDataTable("gpu");
+            ShopUtilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
 
         }
 
@@ -74,8 +76,8 @@ namespace PcCatalog
             if (shopCostPanel.Visible == false)
                 MenuAction("shop",true);
 
-            productSalesDataGrid.DataSource = Utilities.ProductsDataTable("hdd");
-            Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
+            productSalesDataGrid.DataSource = ShopUtilities.ProductsDataTable("hdd");
+            ShopUtilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
         }
 
         private void motherboardsMenuItem_Click(object sender, EventArgs e)
@@ -84,8 +86,8 @@ namespace PcCatalog
             if (shopCostPanel.Visible == false)
                 MenuAction("shop",true);
 
-           productSalesDataGrid.DataSource = Utilities.ProductsDataTable("mobo");
-            Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
+           productSalesDataGrid.DataSource = ShopUtilities.ProductsDataTable("mobo");
+           ShopUtilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
         }
 
         private void powerSuppliesMenuItem_Click(object sender, EventArgs e)
@@ -94,8 +96,8 @@ namespace PcCatalog
             if (shopCostPanel.Visible == false)
                 MenuAction("shop",true);
 
-           productSalesDataGrid.DataSource = Utilities.ProductsDataTable("psu");
-            Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
+           productSalesDataGrid.DataSource = ShopUtilities.ProductsDataTable("psu");
+           ShopUtilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
         }
 
         private void ramMenuItem_Click(object sender, EventArgs e)
@@ -104,8 +106,8 @@ namespace PcCatalog
             if (shopCostPanel.Visible == false)
                 MenuAction("shop",true);
 
-            productSalesDataGrid.DataSource = Utilities.ProductsDataTable("ram");
-            Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
+            productSalesDataGrid.DataSource = ShopUtilities.ProductsDataTable("ram");
+            ShopUtilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
         }
 
         private void ssdMenuItem_Click(object sender, EventArgs e)
@@ -114,8 +116,8 @@ namespace PcCatalog
             if (shopCostPanel.Visible == false)
                 MenuAction("shop",true);
 
-           productSalesDataGrid.DataSource = Utilities.ProductsDataTable("ssd");
-            Utilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
+           productSalesDataGrid.DataSource = ShopUtilities.ProductsDataTable("ssd");
+           ShopUtilities.CheckForAddedItems(selectedProductsName, productSalesDataGrid);
         }
         //Buttons for products on the client side
       
@@ -196,7 +198,7 @@ namespace PcCatalog
                 {
                     double price = double.Parse(row.Cells[2].Value.ToString());
                     string name = row.Cells[1].Value.ToString();
-                    costLabel.Text = Utilities.DisplayPrice(price, "add");
+                    costLabel.Text = ShopUtilities.DisplayPrice(price, "add");
                     selectedProductsPrice.Add(price);
                     selectedProductsName.Add(name);
                     selectedProductsId.Add(Utilities.GetProductId(currentProductType, name, price.ToString()));
@@ -239,6 +241,7 @@ namespace PcCatalog
      
         private void toCartButton_Click(object sender, EventArgs e)
         {
+            NewCart newCart = new();
             newCart.Show();
         }
         public static List<string> SelectedProductsNameList
@@ -335,7 +338,7 @@ namespace PcCatalog
             string status = StatusBox.Text;
 
             if (changeToDataBase == "addProduct") 
-                Utilities.AddProductToDataBase(model, price, status, changeToDataBaseQuery);
+                AdminUtilities.AddProductToDataBase(model, price, status, changeToDataBaseQuery);
             else if(changeToDataBase == "addCorrection")
             {
                 if (!ModelBox.Text.Equals("") && !PriceBox.Text.Equals("") && !StatusBox.Text.Equals(""))
@@ -343,7 +346,7 @@ namespace PcCatalog
                     int productId = Utilities.GetProductId(currentProductType, model, price);
                     changeToDataBaseQuery = $"UPDATE sys.{currentProductType} SET item = @item, {currentProductType}_price = @price, status = @status WHERE product_id = {productId}";
 
-                    Utilities.CorrectionToDataBase(model, price, status, changeToDataBaseQuery);
+                    AdminUtilities.CorrectionToDataBase(model, price, status, changeToDataBaseQuery);
                 }
                 else
                 {
@@ -351,7 +354,7 @@ namespace PcCatalog
                 }
             }
             else if(changeToDataBase == "remove")           
-                Utilities.RemoveProductFromDataBase(model, changeToDataBaseQuery);
+                AdminUtilities.RemoveProductFromDataBase(model, changeToDataBaseQuery);
 
             ModelBox.ReadOnly = true;
             PriceBox.ReadOnly = true;
@@ -383,86 +386,85 @@ namespace PcCatalog
                 {
                     case "Processors(CPU)":
                         currentProductType = "cpu";
-                        productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("cpu");
+                        productSalesDataGrid.DataSource = AdminUtilities.AdminProductsDataTable("cpu");
                         break;
                     case "Graphics Cards(GPU)":
                         currentProductType = "gpu";
-                        productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("gpu");
+                        productSalesDataGrid.DataSource = AdminUtilities.AdminProductsDataTable("gpu");
                         break;
                     case "Hard Drives(HDD)":
                         currentProductType = "hdd";
-                        productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("hdd");
+                        productSalesDataGrid.DataSource = AdminUtilities.AdminProductsDataTable("hdd");
                         break;
                     case "Motherboards(MOBO)":
                         currentProductType = "mobo";
-                        productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("mobo");
+                        productSalesDataGrid.DataSource = AdminUtilities.AdminProductsDataTable("mobo");
                         break;
                     case "Power Supplies(PSU)":
                         currentProductType = "psu";
-                        productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("psu");
+                        productSalesDataGrid.DataSource = AdminUtilities.AdminProductsDataTable("psu");
                         break;
                     case "Ram":
                         currentProductType = "ram";
-                        productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("ram");
+                        productSalesDataGrid.DataSource = AdminUtilities.AdminProductsDataTable("ram");
                         break;
                     case "Solid State Drives(SSD)":
                         currentProductType = "ssd";
-                        productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("ssd");
+                        productSalesDataGrid.DataSource = AdminUtilities.AdminProductsDataTable("ssd");
                         break;
                 }
             }
             if(mode == "salesReport")
-            {
-                
+            {               
                 if (IsTableNull(salesCustomersTable) == false)
                     salesCustomersTable.Clear();
 
                 switch (ProductComboBox.Text)
                 {
                     case "Processors(CPU)":                                
-                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificRepeatedProductsInReport("cpu"), salesCustomersTable));
-                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificIndividualProductsInReport("cpu"), salesCustomersTable));
+                        salesCustomersTable.Merge(ReportUtilities.ProductsReport(ReportUtilities.SpecificRepeatedProductsInReport("cpu"), salesCustomersTable));
+                        salesCustomersTable.Merge(ReportUtilities.ProductsReport(ReportUtilities.SpecificIndividualProductsInReport("cpu"), salesCustomersTable));
                         productSalesDataGrid.DataSource = salesCustomersTable;
                         break;
                     case "Graphics Cards(GPU)":
-                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificRepeatedProductsInReport("gpu"), salesCustomersTable));
-                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificIndividualProductsInReport("gpu"), salesCustomersTable));
+                        salesCustomersTable.Merge(ReportUtilities.ProductsReport(ReportUtilities.SpecificRepeatedProductsInReport("gpu"), salesCustomersTable));
+                        salesCustomersTable.Merge(ReportUtilities.ProductsReport(ReportUtilities.SpecificIndividualProductsInReport("gpu"), salesCustomersTable));
 
                         productSalesDataGrid.DataSource = salesCustomersTable;
                         break;
                     case "Hard Drives(HDD)":
-                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificRepeatedProductsInReport("hdd"), salesCustomersTable));
-                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificIndividualProductsInReport("hdd"), salesCustomersTable));
+                        salesCustomersTable.Merge(ReportUtilities.ProductsReport(ReportUtilities.SpecificRepeatedProductsInReport("hdd"), salesCustomersTable));
+                        salesCustomersTable.Merge(ReportUtilities.ProductsReport(ReportUtilities.SpecificIndividualProductsInReport("hdd"), salesCustomersTable));
 
                         productSalesDataGrid.DataSource = salesCustomersTable;
                         break;
                     case "Motherboards(MOBO)":;
-                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificRepeatedProductsInReport("mobo"), salesCustomersTable));
-                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificIndividualProductsInReport("mobo"), salesCustomersTable));
+                        salesCustomersTable.Merge(ReportUtilities.ProductsReport(ReportUtilities.SpecificRepeatedProductsInReport("mobo"), salesCustomersTable));
+                        salesCustomersTable.Merge(ReportUtilities.ProductsReport(ReportUtilities.SpecificIndividualProductsInReport("mobo"), salesCustomersTable));
 
                         productSalesDataGrid.DataSource = salesCustomersTable;
                         break;
                     case "Power Supplies(PSU)":
-                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificRepeatedProductsInReport("psu"), salesCustomersTable));
-                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificIndividualProductsInReport("psu"), salesCustomersTable));
+                        salesCustomersTable.Merge(ReportUtilities.ProductsReport(ReportUtilities.SpecificRepeatedProductsInReport("psu"), salesCustomersTable));
+                        salesCustomersTable.Merge(ReportUtilities.ProductsReport(ReportUtilities.SpecificIndividualProductsInReport("psu"), salesCustomersTable));
 
                         productSalesDataGrid.DataSource = salesCustomersTable;
                         break;
                     case "Ram":
-                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificRepeatedProductsInReport("ram"), salesCustomersTable));
-                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificIndividualProductsInReport("ram"), salesCustomersTable));
+                        salesCustomersTable.Merge(ReportUtilities.ProductsReport(ReportUtilities.SpecificRepeatedProductsInReport("ram"), salesCustomersTable));
+                        salesCustomersTable.Merge(ReportUtilities.ProductsReport(ReportUtilities.SpecificIndividualProductsInReport("ram"), salesCustomersTable));
 
                         productSalesDataGrid.DataSource = salesCustomersTable;
                         break;
                     case "Solid State Drives(SSD)":
-                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificRepeatedProductsInReport("ssd"), salesCustomersTable));
-                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificIndividualProductsInReport("ssd"), salesCustomersTable));
+                        salesCustomersTable.Merge(ReportUtilities.ProductsReport(ReportUtilities.SpecificRepeatedProductsInReport("ssd"), salesCustomersTable));
+                        salesCustomersTable.Merge(ReportUtilities.ProductsReport(ReportUtilities.SpecificIndividualProductsInReport("ssd"), salesCustomersTable));
 
                         productSalesDataGrid.DataSource = salesCustomersTable;
                         break;
                     case "All":                     
-                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.RepeatedProductsInReport(), salesCustomersTable));
-                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.IndividualProductsInReport(), salesCustomersTable));
+                        salesCustomersTable.Merge(ReportUtilities.ProductsReport(ReportUtilities.RepeatedProductsInReport(), salesCustomersTable));
+                        salesCustomersTable.Merge(ReportUtilities.ProductsReport(ReportUtilities.IndividualProductsInReport(), salesCustomersTable));
 
                         productSalesDataGrid.DataSource = salesCustomersTable;
                         break;
@@ -596,7 +598,7 @@ namespace PcCatalog
                 salesCustomersTable.Columns.Add(dtColumn);
 
                 productSalesDataGrid.Visible = true;
-                salesCustomersTable.Merge(Utilities.CustomerPurchasesReport(salesCustomersTable));
+                salesCustomersTable.Merge(ReportUtilities.CustomerPurchasesReport(salesCustomersTable));
                 productSalesDataGrid.DataSource = salesCustomersTable;
             }          
            
