@@ -10,6 +10,7 @@ namespace PcCatalog
     {
         public static double price;
         private static DataRow dtRow;
+        private static Dictionary<string,string> productType = new();
 
         public static DataTable ProductsDataTable(string product)
         {
@@ -232,7 +233,7 @@ namespace PcCatalog
             return idList;
         }
 
-        public static void PurchaseReport(int userID,int productID,string product,DateTime time,double productPrice)
+        public static void PurchaseReport(int userID,int productID,string product,DateTime time,double productPrice,string productType)
         {
             MySqlConnection connection = ConnectionOpen();
             string report = "INSERT INTO sys.report(customer_id,product_id,product,date,price,removed) " +
@@ -261,6 +262,10 @@ namespace PcCatalog
             MySqlParameter removedParam = new();// if the product is removed from the entire database
             removedParam.ParameterName = "@removed";
             removedParam.Value = "0";
+
+            MySqlParameter productTypeParam = new();
+            productTypeParam.ParameterName = "@type";
+            productTypeParam.Value = productType;
 
             MySqlCommand reportInsertion = new(report, connection);
             reportInsertion.Parameters.Add(customerParam);
@@ -368,23 +373,23 @@ namespace PcCatalog
             }
         }
 
-        public static List<string> RepeatedItemsInReport()
+        public static List<string> RepeatedProductsInReport()
         {
             MySqlConnection connnection = ConnectionOpen();
 
-            string duplicateItemsInQuery = $"SELECT product FROM sys.report GROUP BY product HAVING COUNT(product)>1";
-            MySqlCommand command = new(duplicateItemsInQuery, connnection);
+            string duplicateProductsInQuery = $"SELECT product FROM sys.report GROUP BY product HAVING COUNT(product)>1";
+            MySqlCommand command = new(duplicateProductsInQuery, connnection);
             MySqlDataReader reader = command.ExecuteReader();
 
-            List<string> repeatedItemsList = new();
+            List<string> repeatedProductsList = new();
 
             while (reader.Read())
             {
-                repeatedItemsList.Add(reader[0].ToString());
+                repeatedProductsList.Add(reader[0].ToString());
             }
             connnection.Close();
 
-            return repeatedItemsList;
+            return repeatedProductsList;
         }
         public static List<string> IndividualProductsInReport()
         {
@@ -402,6 +407,40 @@ namespace PcCatalog
             }
             connection.Close();
             return individualItemsList;
+        }
+        public static List<string> SpecificRepeatedProductsInReport(string productType)
+        {
+            MySqlConnection connection = ConnectionOpen();
+
+            string specificProductsInQuery = $"SELECT product FROM sys.report WHERE type = '{productType}' GROUP BY product HAVING COUNT(product)>1;";
+            MySqlCommand command = new(specificProductsInQuery, connection);
+            MySqlDataReader reader = command.ExecuteReader();
+
+            List<string> specificProductsList = new();
+
+            while (reader.Read())
+            {
+                specificProductsList.Add(reader[0].ToString());
+            }
+            connection.Close();
+            return specificProductsList;
+        }
+        public static List<string> SpecificIndividualProductsInReport(string productType)
+        {
+            MySqlConnection connection = ConnectionOpen();
+
+            string specificProductsInQuery = $"SELECT product FROM sys.report WHERE type = '{productType}' GROUP BY product HAVING COUNT(product)=1;";
+            MySqlCommand command = new(specificProductsInQuery, connection);
+            MySqlDataReader reader = command.ExecuteReader();
+
+            List<string> specificProductsList = new();
+
+            while (reader.Read())
+            {
+                specificProductsList.Add(reader[0].ToString());
+            }
+            connection.Close();
+            return specificProductsList;
         }
 
         private static double TotalIncomePerProduct(List<string> repeatedItemList,int productIndex)
@@ -428,13 +467,22 @@ namespace PcCatalog
 
             return orders;
         }
-
+        
+        private static string GetProductType(List<string>productsList,int productIndex)
+        {
+            MySqlConnection connection = ConnectionOpen();
+            string productTypeQuery = $"SELECT type FROM sys.report WHERE product ='{productsList[productIndex]}'";
+            MySqlCommand command = new(productTypeQuery, connection);
+            string productType = command.ExecuteScalar().ToString();
+            return productType;
+        }
         public static DataTable ProductsReport(List<string> productsList,DataTable productsReportTable)
         {                       
             for (int i = 0; i< productsList.Count; i++)
             {
-                double productPrice = Utilities.TotalIncomePerProduct(productsList, i);
-                int orders = Utilities.TotalOrdersPerProduct(productsList, i);
+                double productPrice =TotalIncomePerProduct(productsList, i);
+                int orders = TotalOrdersPerProduct(productsList, i);
+                string productType = GetProductType(productsList, i);
 
                 double total = productPrice * orders;
 
@@ -443,6 +491,7 @@ namespace PcCatalog
                 dtRow["price"] = productPrice;
                 dtRow["orders"] = orders;
                 dtRow["total"] = total;
+                dtRow["productType"] = productType;
                 productsReportTable.Rows.Add(dtRow);
             }
             return productsReportTable;
@@ -486,6 +535,10 @@ namespace PcCatalog
             int orders = int.Parse(command.ExecuteScalar().ToString());
             return orders;
         }
+
+        
+        
+       
     }
 
 }

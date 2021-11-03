@@ -83,12 +83,22 @@ namespace PcCatalog
                 }
                 boughtProductsDataGrid.Columns.Insert(5, dataGridViewColumn);
 
+                dataGridViewColumn = new DataGridViewTextBoxColumn();
+                {
+                    dataGridViewColumn.Name = "productType";
+                    dataGridViewColumn.HeaderText = "productType";
+                    dataGridViewColumn.DataPropertyName = "productType";
+                    dataGridViewColumn.ReadOnly = true;
+                    dataGridViewColumn.Visible = false;
+                }
+                boughtProductsDataGrid.Columns.Insert(6, dataGridViewColumn);
+
                 double sumOfProducts = .0;
                 
                 for (int i = 0; i < NewMain.SelectedProductsNameList.Count; i++)
                 {
                     boughtProductsDataGrid.Rows.Add(NewMain.SelectedProductsNameList[i],
-                        NewMain.SelectedProductsPriceList[i], 1,"","",NewMain.SelectedProductsIDList[i]);
+                        NewMain.SelectedProductsPriceList[i], 1,"","",NewMain.SelectedProductsIDList[i],NewMain.SelectedProductTypeList[i]);
                     
                     sumOfProducts += NewMain.SelectedProductsPriceList[i];
                 }
@@ -122,8 +132,8 @@ namespace PcCatalog
                     int productId = int.Parse(boughtProductsDataGrid.Rows[k].Cells["ID"].Value.ToString());
                     string productName = boughtProductsDataGrid.Rows[k].Cells["productColumn"].Value.ToString();
                     double productPrice = double.Parse(boughtProductsDataGrid.Rows[k].Cells["priceColumn"].Value.ToString());
-
-                    Utilities.PurchaseReport(userID, productId, productName, time, productPrice);
+                    string productType = boughtProductsDataGrid.Rows[k].Cells["productType"].Value.ToString();
+                    Utilities.PurchaseReport(userID, productId, productName, time, productPrice,productType);
                 }
             }
            

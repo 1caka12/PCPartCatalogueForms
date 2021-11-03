@@ -172,14 +172,14 @@ namespace PcCatalog
             // salesToolStripMenuItem
             // 
             this.salesToolStripMenuItem.Name = "salesToolStripMenuItem";
-            this.salesToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
+            this.salesToolStripMenuItem.Size = new System.Drawing.Size(155, 26);
             this.salesToolStripMenuItem.Text = "Sales";
             this.salesToolStripMenuItem.Click += new System.EventHandler(this.salesToolStripMenuItem_Click);
             // 
             // CustomersToolStripMenuItem
             // 
             this.CustomersToolStripMenuItem.Name = "CustomersToolStripMenuItem";
-            this.CustomersToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
+            this.CustomersToolStripMenuItem.Size = new System.Drawing.Size(155, 26);
             this.CustomersToolStripMenuItem.Text = "Customers";
             this.CustomersToolStripMenuItem.Click += new System.EventHandler(this.clientsToolStripMenuItem_Click);
             // 
@@ -188,7 +188,7 @@ namespace PcCatalog
             this.productSalesDataGrid.AllowUserToAddRows = false;
             this.productSalesDataGrid.AllowUserToDeleteRows = false;
             this.productSalesDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.productSalesDataGrid.Location = new System.Drawing.Point(218, 88);
+            this.productSalesDataGrid.Location = new System.Drawing.Point(196, 88);
             this.productSalesDataGrid.Name = "productSalesDataGrid";
             this.productSalesDataGrid.RowTemplate.Height = 25;
             this.productSalesDataGrid.Size = new System.Drawing.Size(421, 234);
@@ -286,7 +286,7 @@ namespace PcCatalog
             this.ProductComboBox.Name = "ProductComboBox";
             this.ProductComboBox.Size = new System.Drawing.Size(150, 25);
             this.ProductComboBox.TabIndex = 32;
-            this.ProductComboBox.SelectedIndexChanged += new System.EventHandler(this.ItemComboBox_SelectedIndexChanged);
+            this.ProductComboBox.SelectedIndexChanged += new System.EventHandler(this.ProductComboBox_SelectedIndexChanged);
             // 
             // AdminDataBaseEditorPanel
             // 
@@ -301,9 +301,9 @@ namespace PcCatalog
             this.AdminDataBaseEditorPanel.Controls.Add(this.RemoveProductButton);
             this.AdminDataBaseEditorPanel.Controls.Add(this.CorrectionButton);
             this.AdminDataBaseEditorPanel.Controls.Add(this.NewProductButton);
-            this.AdminDataBaseEditorPanel.Location = new System.Drawing.Point(350, 363);
+            this.AdminDataBaseEditorPanel.Location = new System.Drawing.Point(0, 328);
             this.AdminDataBaseEditorPanel.Name = "AdminDataBaseEditorPanel";
-            this.AdminDataBaseEditorPanel.Size = new System.Drawing.Size(450, 85);
+            this.AdminDataBaseEditorPanel.Size = new System.Drawing.Size(800, 121);
             this.AdminDataBaseEditorPanel.TabIndex = 10;
             this.AdminDataBaseEditorPanel.Visible = false;
             // 

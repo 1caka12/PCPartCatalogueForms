@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Drawing;
 using MySql.Data.MySqlClient;
 using System.Data;
 using System.Collections.Generic;
@@ -13,12 +12,13 @@ namespace PcCatalog
         private static List<double> selectedProductsPrice;
         private static List<string> selectedProductsName;
         private static List<int> selectedProductsId;
+        private static List<string> selectedProductType;
         private static string currentProductType;
         private static string changeToDataBase;
         private static string changeToDataBaseQuery;
         private static string mode;
         private DataTable salesCustomersTable;
-        private DataRow dtRow;
+        //private DataRow dtRow;
         private DataColumn dtColumn;
        
         
@@ -200,6 +200,7 @@ namespace PcCatalog
                     selectedProductsPrice.Add(price);
                     selectedProductsName.Add(name);
                     selectedProductsId.Add(Utilities.GetProductId(currentProductType, name, price.ToString()));
+                    selectedProductType.Add(currentProductType);
 
                     productSalesDataGrid.Rows.Remove(row);
                 }
@@ -231,7 +232,8 @@ namespace PcCatalog
                 productSalesDataGrid.Columns.Insert(0, buttonColumn);
                 selectedProductsName = new();
                 selectedProductsPrice = new();
-                selectedProductsId = new();            
+                selectedProductsId = new();
+                selectedProductType = new();
             }       
         }
      
@@ -256,6 +258,12 @@ namespace PcCatalog
             get { return selectedProductsId; }
             set { selectedProductsId = value; }
         }
+
+        public static List<string> SelectedProductTypeList
+        {
+            get { return selectedProductType; }
+            set { selectedProductType = value; }
+        }
         // Shop
 
         // Admin
@@ -269,7 +277,12 @@ namespace PcCatalog
                 MenuAction("customersReport", false);
 
             MenuAction("admin", true);
-            mode = "admin";          
+            mode = "admin";
+
+            if (ProductComboBox.Items.Contains("All"))
+            {
+                ProductComboBox.Items.Remove("All");
+            }
         }
         private void NewProductButton_Click(object sender, EventArgs e)
         {
@@ -362,8 +375,8 @@ namespace PcCatalog
             SaveCancelPanel.Visible = false;
         }
 
-        private void ItemComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        private void ProductComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {         
             if (mode == "admin")
             {
                 switch (ProductComboBox.Text)
@@ -395,6 +408,63 @@ namespace PcCatalog
                     case "Solid State Drives(SSD)":
                         currentProductType = "ssd";
                         productSalesDataGrid.DataSource = Utilities.AdminProductsDataTable("ssd");
+                        break;
+                }
+            }
+            if(mode == "salesReport")
+            {
+                
+                if (IsTableNull(salesCustomersTable) == false)
+                    salesCustomersTable.Clear();
+
+                switch (ProductComboBox.Text)
+                {
+                    case "Processors(CPU)":                                
+                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificRepeatedProductsInReport("cpu"), salesCustomersTable));
+                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificIndividualProductsInReport("cpu"), salesCustomersTable));
+                        productSalesDataGrid.DataSource = salesCustomersTable;
+                        break;
+                    case "Graphics Cards(GPU)":
+                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificRepeatedProductsInReport("gpu"), salesCustomersTable));
+                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificIndividualProductsInReport("gpu"), salesCustomersTable));
+
+                        productSalesDataGrid.DataSource = salesCustomersTable;
+                        break;
+                    case "Hard Drives(HDD)":
+                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificRepeatedProductsInReport("hdd"), salesCustomersTable));
+                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificIndividualProductsInReport("hdd"), salesCustomersTable));
+
+                        productSalesDataGrid.DataSource = salesCustomersTable;
+                        break;
+                    case "Motherboards(MOBO)":;
+                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificRepeatedProductsInReport("mobo"), salesCustomersTable));
+                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificIndividualProductsInReport("mobo"), salesCustomersTable));
+
+                        productSalesDataGrid.DataSource = salesCustomersTable;
+                        break;
+                    case "Power Supplies(PSU)":
+                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificRepeatedProductsInReport("psu"), salesCustomersTable));
+                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificIndividualProductsInReport("psu"), salesCustomersTable));
+
+                        productSalesDataGrid.DataSource = salesCustomersTable;
+                        break;
+                    case "Ram":
+                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificRepeatedProductsInReport("ram"), salesCustomersTable));
+                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificIndividualProductsInReport("ram"), salesCustomersTable));
+
+                        productSalesDataGrid.DataSource = salesCustomersTable;
+                        break;
+                    case "Solid State Drives(SSD)":
+                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificRepeatedProductsInReport("ssd"), salesCustomersTable));
+                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.SpecificIndividualProductsInReport("ssd"), salesCustomersTable));
+
+                        productSalesDataGrid.DataSource = salesCustomersTable;
+                        break;
+                    case "All":                     
+                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.RepeatedProductsInReport(), salesCustomersTable));
+                        salesCustomersTable.Merge(Utilities.ProductsReport(Utilities.IndividualProductsInReport(), salesCustomersTable));
+
+                        productSalesDataGrid.DataSource = salesCustomersTable;
                         break;
                 }
             }
@@ -436,9 +506,7 @@ namespace PcCatalog
                      
             MenuAction("salesReport", true);
             mode = "salesReport";
-
-            
-            
+                     
             if(!salesCustomersTable.Columns.Contains("product"))
             {              
                 dtColumn = new();
@@ -473,16 +541,20 @@ namespace PcCatalog
                 dtColumn.Unique = false;
                 salesCustomersTable.Columns.Add(dtColumn);
 
-                ProductsPanel.Visible = true;
-                ProductComboBox.Items.Add("All");
-                List<string> repeatedItemsInReport = Utilities.RepeatedItemsInReport();
-                List<string> individualItemsInReport = Utilities.IndividualProductsInReport();
-
-                salesCustomersTable.Merge(Utilities.ProductsReport(repeatedItemsInReport, salesCustomersTable));
-                salesCustomersTable.Merge(Utilities.ProductsReport(individualItemsInReport, salesCustomersTable));
-                productSalesDataGrid.DataSource = salesCustomersTable;
+                dtColumn = new();
+                dtColumn.DataType = typeof(string);
+                dtColumn.ColumnName = "productType";
+                dtColumn.Caption = "Product Type";
+                dtColumn.ReadOnly = false;
+                dtColumn.Unique = false;             
+                salesCustomersTable.Columns.Add(dtColumn);
+             
+                ProductsPanel.Visible = true;                            
             }
-            
+            if(!ProductComboBox.Items.Contains("All"))
+            {
+                ProductComboBox.Items.Add("All");
+            }
         }
         private void clientsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -499,7 +571,6 @@ namespace PcCatalog
            
             if (!salesCustomersTable.Columns.Contains("customer"))
             {
-                
                 dtColumn = new();
                 dtColumn.DataType = typeof(string);
                 dtColumn.ColumnName = "customer";
@@ -530,70 +601,15 @@ namespace PcCatalog
             }          
            
         }
+
+        private static bool IsTableNull(DataTable dtTable)
+        {
+            if (dtTable == null)
+                return true;
+            else
+                return false;
+        }
     }
         
 }
 
-/*
- private void OpenMenu(string menu)
-        {
-           //exitButton.Visible = true;
-            productSalesDataGrid.Visible = true;
-            if (menu == "shop")
-            {
-                shopCostPanel.Visible = true;
-                toCartButton.Visible = true;             
-            }    
-            else if(menu=="admin")
-            {
-                ProductsPanel.Visible = true;
-                AdminDataBaseEditorPanel.Visible = true;
-
-                shopCostPanel.Visible = false;
-                toCartButton.Visible = false;
-            }
-            else if(menu=="salesReport")
-            {
-                ProductsPanel.Visible = true;
-                productSalesDataGrid.Visible = true;
-            }
-            else if(menu=="customersReport")
-            {
-
-            }
-        }
-        private void ExitMenu(string menu)
-        {
-            exitButton.Visible = false;
-            productSalesDataGrid.Visible = false;
-            if (menu == "shop")
-            {
-                shopCostPanel.Visible = false;
-                toCartButton.Visible = false;
-                exitButton.Visible = false;
-                productSalesDataGrid.DataSource = null;
-                if (selectedProductsId != null)
-                {
-                    selectedProductsId.Clear();
-                    selectedProductsName.Clear();
-                    selectedProductsPrice.Clear();
-                }
-            }
-            else if (menu == "admin")
-            {
-                ProductsPanel.Visible = false;
-                AdminDataBaseEditorPanel.Visible = false;
-                productSalesDataGrid.Visible = false;
-            }
-            else if(menu == "salesReport")
-            {
-                ProductsPanel.Visible = false;
-                productSalesDataGrid.Visible = false;
-            }
-            else if(menu =="customersReport")
-            {
-                productSalesDataGrid.Visible = false;
-            }
-
-        }
- */
