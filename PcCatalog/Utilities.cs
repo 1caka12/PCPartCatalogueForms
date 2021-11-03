@@ -1,16 +1,10 @@
-﻿using System;
-using System.Data;
-using System.Windows.Forms;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 
 namespace PcCatalog
 {
     class Utilities
-    {
-        
-               
-        //General Utilities
+    {                           
         public static MySqlConnection ConnectionOpen()
         {
             string connectionString = "server=localhost;user=root;database=sys;port=3306;password=root";

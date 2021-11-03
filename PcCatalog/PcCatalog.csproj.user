@@ -5,28 +5,10 @@
     <_LastSelectedProfileId>D:\vscode backupo\PcCatalog\PcCatalog\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Update="AdminScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="BudgetAdd.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Cart.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="EditPurchase.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Main.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="NewCart.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="NewMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Shop.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
